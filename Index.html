@@ -5,6 +5,4621 @@
    <meta charset="UTF-8>
   <meta name="viewport" content=device-widht, initial-scale=1.0>
   <title>RZGflix<
-</head>
+8db658af1f55dcc599f48d12ad747404168be84dhttps://m.youtube.com/watch?v=Ga8ZkXpfXN8&pp=ygUpZmlsbWUgaG9tZW0gYXJhbmhhIGNvbXBsZXRvIGVtIHBvcnR1Z3XDqnM%3Dhttps://github.com/Rzgwyz/Site-creative/edit/main/Index.htmlhttps://editor.p5js.org/guimaraes.paola/full/Tnuz7_op1https://editor.p5js.org/jenyffer.paglia.silva/full/607nF3C5-https://editor.p5js.org/jenyffer.paglia.silva/full/pA9rjp6h4https://scratch.mit.edu/projects/1089292515https://editor.p5js.org/evellyn.damacena/sketches/Z9Sa6lfwwhttps://scratch.mit.edu/projects/1082339986https://scratch.mit.edu/projects/106965018515, 16, 18, 19, 19, 16, 20, 17, 15, 20, 20, 16, 19, 20, 17, 16, 17, 19, 20, 19, 15https://scratch.mit.edu/projects/1075800614https://github.com/joaovitorcidralv/Ultimate-Fighting.gitgh repo clone joaovitorcidralv/Ultimate-Fightingpackage ufc;
+
+import java.util.Random;
+
+public class Luta {
+    // agregação, uma classe estar contida em outra classe
+    private Lutador desafiado;
+    private Lutador desafiante;
+    private boolean aprovada;
+
+    public void marcarLuta(Lutador l1, Lutador l2){
+        if (l1.getCategoria().equals(l2.getCategoria()) && l1 != l2){
+            this.aprovada =true;
+            this.desafiado = l1;
+            this.desafiante = l2;
+        } else {
+            this.aprovada = false;
+            this.desafiado = null;
+            this.desafiante = null;
+        }
+    }
+
+    public void lutar() {
+        if (this.aprovada) {
+            System.out.println("### DESAFIADO ###");
+            this.desafiado.apresentar();
+            System.out.println("### DESAFIANTE ###");
+            this.desafiante.apresentar();
+            double probabilidadeVitoriaDesafiado = 0.383;  // 38.3% de chance de vitória sem vantagem
+            double probabilidadeVitoriaDesafiante = 0.383; // 38.3% de chance de vitória sem vantagem
+            double probabilidadeEmpate = 0.234;           // 23.4% de chance de empate sem vantagem
+
+            if (this.desafiado.getVitorias() > this.desafiante.getVitorias() &&
+                    this.desafiado.getDerrotas() < this.desafiante.getDerrotas()) {
+                probabilidadeVitoriaDesafiado = 0.523;  // 52.3% de chance de vitória com vantagem
+                probabilidadeVitoriaDesafiante = 0.203; // 20.3% de chance de vitória com vantagem
+                probabilidadeEmpate = 0.274;           // 27.4% de chance de empate com vantagem
+            } else if (this.desafiante.getVitorias() > this.desafiado.getVitorias() &&
+                    this.desafiante.getDerrotas() < this.desafiado.getDerrotas()) {
+                probabilidadeVitoriaDesafiante = 0.523;  // 52.3% de chance de vitória com vantagem
+                probabilidadeVitoriaDesafiado = 0.203;   // 20.3% de chance de vitória com vantagem
+                probabilidadeEmpate = 0.274;             // 27.4% de chance de empate com vantagem
+            }
+
+            Random random = new Random();
+            double randomValue = random.nextDouble();
+
+            if (randomValue < probabilidadeVitoriaDesafiado) {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("Vitória de " + this.desafiado.getNome());
+                System.out.println("====================================================");
+                this.desafiado.ganharLuta();
+                this.desafiante.perderLuta();
+            } else if (randomValue < probabilidadeVitoriaDesafiado + probabilidadeVitoriaDesafiante) {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("Vitória de " + this.desafiante.getNome());
+                System.out.println("====================================================");
+                this.desafiante.ganharLuta();
+                this.desafiado.perderLuta();
+            } else {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("A luta terminou em empate!");
+                System.out.println("====================================================");
+                this.desafiado.empatarLuta();
+                this.desafiante.empatarLuta();
+            }
+        } else {
+            System.out.println("Esta luta não pode acontecer, categorias diferentes!");
+        }
+    }
+
+    public Lutador getDesafiado() {
+        return desafiado;
+    }
+
+    public void setDesafiado(Lutador desafiado) {
+        this.desafiado = desafiado;
+    }
+
+    public Lutador getDesafiante() {
+        return desafiante;
+    }
+
+    public void setDesafiante(Lutador desafiante) {
+        this.desafiante = desafiante;
+    }
+}ackage ufc;
+
+public class Lutador {
+    private String nome;
+    private String nacionalidade;
+    private int idade;
+    private double altura;
+    private double peso;
+    private String categoria;
+    private int vitorias;
+    private int derrotas;
+    private int empates;
+
+    public void apresentar(){
+        System.out.println("------------------------------------------------------------------");
+        System.out.println("Chegou a hora! Apresentamos o lutador " + this.getNome());
+        System.out.println("Diretamente de " + this.getNacionalidade());
+        System.out.println("com " + this.getIdade() + " anos e " + this.getAltura() + " metros");
+        System.out.println("pesando " + this.getPeso() + "Kg");
+        System.out.println(this.getVitorias() + " vitórias ");
+        System.out.println(this.getDerrotas() + " derrotas ");
+        System.out.println(this.getEmpates() + " empates! ");
+    }
+
+    //apresentação simples
+    public void status(){
+        System.out.println(this.getNome() + " é um " + this.getCategoria());
+        System.out.println("Ganhou " + this.getVitorias() + " vezes");
+        System.out.println("Perdeu " + this.getDerrotas() + " vezes");
+        System.out.println("Empatou " + this.getEmpates() + " vezes");
+    }
+
+    public void ganharLuta(){
+        this.setVitorias(getVitorias() + 1);
+    }
+
+    public void perderLuta(){
+        this.setDerrotas(getDerrotas() + 1);
+    }
+
+    public void empatarLuta(){
+        this.setEmpates(getEmpates() + 1);
+    }
+
+    public Lutador(String nome, String nacionalidade, int idade, double altura, double peso, int vitorias, int derrotas, int empates) {
+        this.nome = nome;
+        this.nacionalidade = nacionalidade;
+        this.idade = idade;
+        this.altura = altura;
+        this.setPeso(peso);
+        this.vitorias = vitorias;
+        this.derrotas = derrotas;
+        this.empates = empates;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getNacionalidade() {
+        return nacionalidade;
+    }
+
+    public void setNacionalidade(String nacionalidade) {
+        this.nacionalidade = nacionalidade;
+    }
+
+    public int getIdade() {
+        return idade;
+    }
+
+    public void setIdade(int idade) {
+        this.idade = idade;
+    }
+
+    public double getAltura() {
+        return altura;
+    }
+
+    public void setAltura(double altura) {
+        this.altura = altura;
+    }
+
+    public double getPeso() {
+        return peso;
+    }
+
+    public void setPeso(double peso) {
+        this.peso = peso;
+        this.setCategoria();
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    //categoria de acordo com o peso
+    private void setCategoria() {
+        if (this.peso < 52.6){
+            this.categoria = "Peso-Palha";
+        } else if (this.peso < 56.7) {
+            this.categoria = "Peso-Mosca";
+        } else if (this.peso < 61.2) {
+            this.categoria = "Peso-Galo";
+        } else if (this.peso < 65.7) {
+            this.categoria = "Peso-Pena";
+        } else if (this.peso < 70.3) {
+            this.categoria = "Peso-Leve";
+        } else if (this.peso < 77.1) {
+            this.categoria = "Peso Meio-Médio";
+        } else if (this.peso < 83.9){
+            this.categoria = "Peso-Médio";
+        } else if (this.peso < 92.9) {
+            this.categoria = "Peso Meio-Pesado";
+        } else if (this.peso < 120.2) {
+            this.categoria = "Peso Pesado";
+        } else {
+            System.out.println("Não se enquadra nas categorias, não pode lutar!");
+
+        }
+    }
+
+    public int getVitorias() {
+        return vitorias;
+    }
+
+    public void setVitorias(int vitorias) {
+        this.vitorias = vitorias;
+    }
+
+    public int getDerrotas() {
+        return derrotas;
+    }
+
+    public void setDerrotas(int derrotas) {
+        this.derrotas = derrotas;
+    }
+
+    public int getEmpates() {
+        return empates;
+    }
+
+    public void setEmpates(int empates) {
+        this.empates = empates;
+    }
+}Lutador.javapackage ufc;
+
+public class Lutador {
+    private String nome;
+    private String nacionalidade;
+    private int idade;
+    private double altura;
+    private double peso;
+    private String categoria;
+    private int vitorias;
+    private int derrotas;
+    private int empates;
+
+    public void apresentar(){
+        System.out.println("------------------------------------------------------------------");
+        System.out.println("Chegou a hora! Apresentamos o lutador " + this.getNome());
+        System.out.println("Diretamente de " + this.getNacionalidade());
+        System.out.println("com " + this.getIdade() + " anos e " + this.getAltura() + " metros");
+        System.out.println("pesando " + this.getPeso() + "Kg");
+        System.out.println(this.getVitorias() + " vitórias ");
+        System.out.println(this.getDerrotas() + " derrotas ");
+        System.out.println(this.getEmpates() + " empates! ");
+    }
+
+    //apresentação simples
+    public void status(){
+        System.out.println(this.getNome() + " é um " + this.getCategoria());
+        System.out.println("Ganhou " + this.getVitorias() + " vezes");
+        System.out.println("Perdeu " + this.getDerrotas() + " vezes");
+        System.out.println("Empatou " + this.getEmpates() + " vezes");
+    }
+
+    public void ganharLuta(){
+        this.setVitorias(getVitorias() + 1);
+    }
+
+    public void perderLuta(){
+        this.setDerrotas(getDerrotas() + 1);
+    }
+
+    public void empatarLuta(){
+        this.setEmpates(getEmpates() + 1);
+    }
+
+    public Lutador(String nome, String nacionalidade, int idade, double altura, double peso, int vitorias, int derrotas, int empates) {
+        this.nome = nome;
+        this.nacionalidade = nacionalidade;
+        this.idade = idade;
+        this.altura = altura;
+        this.setPeso(peso);
+        this.vitorias = vitorias;
+        this.derrotas = derrotas;
+        this.empates = empates;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getNacionalidade() {
+        return nacionalidade;
+    }
+
+    public void setNacionalidade(String nacionalidade) {
+        this.nacionalidade = nacionalidade;
+    }
+
+    public int getIdade() {
+        return idade;
+    }
+
+    public void setIdade(int idade) {
+        this.idade = idade;
+    }
+
+    public double getAltura() {
+        return altura;
+    }
+
+    public void setAltura(double altura) {
+        this.altura = altura;
+    }
+
+    public double getPeso() {
+        return peso;
+    }
+
+    public void setPeso(double peso) {
+        this.peso = peso;
+        this.setCategoria();
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    //categoria de acordo com o peso
+    private void setCategoria() {
+        if (this.peso < 52.6){
+            this.categoria = "Peso-Palha";
+        } else if (this.peso < 56.7) {
+            this.categoria = "Peso-Mosca";
+        } else if (this.peso < 61.2) {
+            this.categoria = "Peso-Galo";
+        } else if (this.peso < 65.7) {
+            this.categoria = "Peso-Pena";
+        } else if (this.peso < 70.3) {
+            this.categoria = "Peso-Leve";
+        } else if (this.peso < 77.1) {
+            this.categoria = "Peso Meio-Médio";
+        } else if (this.peso < 83.9){
+            this.categoria = "Peso-Médio";
+        } else if (this.peso < 92.9) {
+            this.categoria = "Peso Meio-Pesado";
+        } else if (this.peso < 120.2) {
+            this.categoria = "Peso Pesado";
+        } else {
+            System.out.println("Não se enquadra nas categorias, não pode lutar!");
+
+        }
+    }
+
+    public int getVitorias() {
+        return vitorias;
+    }
+
+    public void setVitorias(int vitorias) {
+        this.vitorias = vitorias;
+    }
+
+    public int getDerrotas() {
+        return derrotas;
+    }
+
+    public void setDerrotas(int derrotas) {
+        this.derrotas = derrotas;
+    }
+
+    public int getEmpates() {
+        return empates;
+    }
+
+    public void setEmpates(int empates) {
+        this.empates = empates;
+    }
+}Luta.javahttps://scratch.mit.edu/projects/1082136629https://scratch.mit.edu/projects/1075781647https://scratch.mit.edu/projects/1076996190https://scratch.mit.edu/https://scratch.mit.edu/projects/1069591654Terrifier https://scratch.mit.edu/projects/1075834558Lutador.javaLutador.javapackage ufc;
+
+public class Lutador {
+    private String nome;
+    private String nacionalidade;
+    private int idade;
+    private double altura;
+    private double peso;
+    private String categoria;
+    private int vitorias;
+    private int derrotas;
+    private int empates;
+
+    public void apresentar(){
+        System.out.println("------------------------------------------------------------------");
+        System.out.println("Chegou a hora! Apresentamos o lutador " + this.getNome());
+        System.out.println("Diretamente de " + this.getNacionalidade());
+        System.out.println("com " + this.getIdade() + " anos e " + this.getAltura() + " metros");
+        System.out.println("pesando " + this.getPeso() + "Kg");
+        System.out.println(this.getVitorias() + " vitórias ");
+        System.out.println(this.getDerrotas() + " derrotas ");
+        System.out.println(this.getEmpates() + " empates! ");
+    }
+
+    //apresentação simples
+    public void status(){
+        System.out.println(this.getNome() + " é um " + this.getCategoria());
+        System.out.println("Ganhou " + this.getVitorias() + " vezes");
+        System.out.println("Perdeu " + this.getDerrotas() + " vezes");
+        System.out.println("Empatou " + this.getEmpates() + " vezes");
+    }
+
+    public void ganharLuta(){
+        this.setVitorias(getVitorias() + 1);
+    }
+
+    public void perderLuta(){
+        this.setDerrotas(getDerrotas() + 1);
+    }
+
+    public void empatarLuta(){
+        this.setEmpates(getEmpates() + 1);
+    }
+
+    public Lutador(String nome, String nacionalidade, int idade, double altura, double peso, int vitorias, int derrotas, int empates) {
+        this.nome = nome;
+        this.nacionalidade = nacionalidade;
+        this.idade = idade;
+        this.altura = altura;
+        this.setPeso(peso);
+        this.vitorias = vitorias;
+        this.derrotas = derrotas;
+        this.empates = empates;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getNacionalidade() {
+        return nacionalidade;
+    }
+
+    public void setNacionalidade(String nacionalidade) {
+        this.nacionalidade = nacionalidade;
+    }
+
+    public int getIdade() {
+        return idade;
+    }
+
+    public void setIdade(int idade) {
+        this.idade = idade;
+    }
+
+    public double getAltura() {
+        return altura;
+    }
+
+    public void setAltura(double altura) {
+        this.altura = altura;
+    }
+
+    public double getPeso() {
+        return peso;
+    }
+
+    public void setPeso(double peso) {
+        this.peso = peso;
+        this.setCategoria();
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    //categoria de acordo com o peso
+    private void setCategoria() {
+        if (this.peso < 52.6){
+            this.categoria = "Peso-Palha";
+        } else if (this.peso < 56.7) {
+            this.categoria = "Peso-Mosca";
+        } else if (this.peso < 61.2) {
+            this.categoria = "Peso-Galo";
+        } else if (this.peso < 65.7) {
+            this.categoria = "Peso-Pena";
+        } else if (this.peso < 70.3) {
+            this.categoria = "Peso-Leve";
+        } else if (this.peso < 77.1) {
+            this.categoria = "Peso Meio-Médio";
+        } else if (this.peso < 83.9){
+            this.categoria = "Peso-Médio";
+        } else if (this.peso < 92.9) {
+            this.categoria = "Peso Meio-Pesado";
+        } else if (this.peso < 120.2) {
+            this.categoria = "Peso Pesado";
+        } else {
+            System.out.println("Não se enquadra nas categorias, não pode lutar!");
+
+        }
+    }
+
+    public int getVitorias() {
+        return vitorias;
+    }
+
+    public void setVitorias(int vitorias) {
+        this.vitorias = vitorias;
+    }
+
+    public int getDerrotas() {
+        return derrotas;
+    }
+
+    public void setDerrotas(int derrotas) {
+        this.derrotas = derrotas;
+    }
+
+    public int getEmpates() {
+        return empates;
+    }
+
+    public void setEmpates(int empates) {
+        this.empates = empates;
+    }
+}ackage ufc;
+
+public class Lutador {
+    private String nome;
+    private String nacionalidade;
+    private int idade;
+    private double altura;
+    private double peso;
+    private String categoria;
+    private int vitorias;
+    private int derrotas;
+    private int empates;
+
+    public void apresentar(){
+        System.out.println("------------------------------------------------------------------");
+        System.out.println("Chegou a hora! Apresentamos o lutador " + this.getNome());
+        System.out.println("Diretamente de " + this.getNacionalidade());
+        System.out.println("com " + this.getIdade() + " anos e " + this.getAltura() + " metros");
+        System.out.println("pesando " + this.getPeso() + "Kg");
+        System.out.println(this.getVitorias() + " vitórias ");
+        System.out.println(this.getDerrotas() + " derrotas ");
+        System.out.println(this.getEmpates() + " empates! ");
+    }
+
+    //apresentação simples
+    public void status(){
+        System.out.println(this.getNome() + " é um " + this.getCategoria());
+        System.out.println("Ganhou " + this.getVitorias() + " vezes");
+        System.out.println("Perdeu " + this.getDerrotas() + " vezes");
+        System.out.println("Empatou " + this.getEmpates() + " vezes");
+    }
+
+    public void ganharLuta(){
+        this.setVitorias(getVitorias() + 1);
+    }
+
+    public void perderLuta(){
+        this.setDerrotas(getDerrotas() + 1);
+    }
+
+    public void empatarLuta(){
+        this.setEmpates(getEmpates() + 1);
+    }
+
+    public Lutador(String nome, String nacionalidade, int idade, double altura, double peso, int vitorias, int derrotas, int empates) {
+        this.nome = nome;
+        this.nacionalidade = nacionalidade;
+        this.idade = idade;
+        this.altura = altura;
+        this.setPeso(peso);
+        this.vitorias = vitorias;
+        this.derrotas = derrotas;
+        this.empates = empates;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getNacionalidade() {
+        return nacionalidade;
+    }
+
+    public void setNacionalidade(String nacionalidade) {
+        this.nacionalidade = nacionalidade;
+    }
+
+    public int getIdade() {
+        return idade;
+    }
+
+    public void setIdade(int idade) {
+        this.idade = idade;
+    }
+
+    public double getAltura() {
+        return altura;
+    }
+
+    public void setAltura(double altura) {
+        this.altura = altura;
+    }
+
+    public double getPeso() {
+        return peso;
+    }
+
+    public void setPeso(double peso) {
+        this.peso = peso;
+        this.setCategoria();
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    //categoria de acordo com o peso
+    private void setCategoria() {
+        if (this.peso < 52.6){
+            this.categoria = "Peso-Palha";
+        } else if (this.peso < 56.7) {
+            this.categoria = "Peso-Mosca";
+        } else if (this.peso < 61.2) {
+            this.categoria = "Peso-Galo";
+        } else if (this.peso < 65.7) {
+            this.categoria = "Peso-Pena";
+        } else if (this.peso < 70.3) {
+            this.categoria = "Peso-Leve";
+        } else if (this.peso < 77.1) {
+            this.categoria = "Peso Meio-Médio";
+        } else if (this.peso < 83.9){
+            this.categoria = "Peso-Médio";
+        } else if (this.peso < 92.9) {
+            this.categoria = "Peso Meio-Pesado";
+        } else if (this.peso < 120.2) {
+            this.categoria = "Peso Pesado";
+        } else {
+            System.out.println("Não se enquadra nas categorias, não pode lutar!");
+
+        }
+    }
+
+    public int getVitorias() {
+        return vitorias;
+    }
+
+    public void setVitorias(int vitorias) {
+        this.vitorias = vitorias;
+    }
+
+    public int getDerrotas() {
+        return derrotas;
+    }
+
+    public void setDerrotas(int derrotas) {
+        this.derrotas = derrotas;
+    }
+
+    public int getEmpates() {
+        return empates;
+    }
+
+    public void setEmpates(int empates) {
+        this.empates = empates;
+    }
+}https://github.com/joaovitorcidralv/Ultimate-Fighting.githttps://scratch.mit.edu/projects/1075800614gh repo clone joaovitorcidralv/Ultimate-Fighting15, 16, 18, 19, 19, 16, 20, 17, 15, 20, 20, 16, 19, 20, 17, 16, 17, 19, 20, 19, 15package ufc;
+
+import java.util.Random;
+
+public class Luta {
+    // agregação, uma classe estar contida em outra classe
+    private Lutador desafiado;
+    private Lutador desafiante;
+    private boolean aprovada;
+
+    public void marcarLuta(Lutador l1, Lutador l2){
+        if (l1.getCategoria().equals(l2.getCategoria()) && l1 != l2){
+            this.aprovada =true;
+            this.desafiado = l1;
+            this.desafiante = l2;
+        } else {
+            this.aprovada = false;
+            this.desafiado = null;
+            this.desafiante = null;
+        }
+    }
+
+    public void lutar() {
+        if (this.aprovada) {
+            System.out.println("### DESAFIADO ###");
+            this.desafiado.apresentar();
+            System.out.println("### DESAFIANTE ###");
+            this.desafiante.apresentar();
+            double probabilidadeVitoriaDesafiado = 0.383;  // 38.3% de chance de vitória sem vantagem
+            double probabilidadeVitoriaDesafiante = 0.383; // 38.3% de chance de vitória sem vantagem
+            double probabilidadeEmpate = 0.234;           // 23.4% de chance de empate sem vantagem
+
+            if (this.desafiado.getVitorias() > this.desafiante.getVitorias() &&
+                    this.desafiado.getDerrotas() < this.desafiante.getDerrotas()) {
+                probabilidadeVitoriaDesafiado = 0.523;  // 52.3% de chance de vitória com vantagem
+                probabilidadeVitoriaDesafiante = 0.203; // 20.3% de chance de vitória com vantagem
+                probabilidadeEmpate = 0.274;           // 27.4% de chance de empate com vantagem
+            } else if (this.desafiante.getVitorias() > this.desafiado.getVitorias() &&
+                    this.desafiante.getDerrotas() < this.desafiado.getDerrotas()) {
+                probabilidadeVitoriaDesafiante = 0.523;  // 52.3% de chance de vitória com vantagem
+                probabilidadeVitoriaDesafiado = 0.203;   // 20.3% de chance de vitória com vantagem
+                probabilidadeEmpate = 0.274;             // 27.4% de chance de empate com vantagem
+            }
+
+            Random random = new Random();
+            double randomValue = random.nextDouble();
+
+            if (randomValue < probabilidadeVitoriaDesafiado) {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("Vitória de " + this.desafiado.getNome());
+                System.out.println("====================================================");
+                this.desafiado.ganharLuta();
+                this.desafiante.perderLuta();
+            } else if (randomValue < probabilidadeVitoriaDesafiado + probabilidadeVitoriaDesafiante) {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("Vitória de " + this.desafiante.getNome());
+                System.out.println("====================================================");
+                this.desafiante.ganharLuta();
+                this.desafiado.perderLuta();
+            } else {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("A luta terminou em empate!");
+                System.out.println("====================================================");
+                this.desafiado.empatarLuta();
+                this.desafiante.empatarLuta();
+            }
+        } else {
+            System.out.println("Esta luta não pode acontecer, categorias diferentes!");
+        }
+    }
+
+    public Lutador getDesafiado() {
+        return desafiado;
+    }
+
+    public void setDesafiado(Lutador desafiado) {
+        this.desafiado = desafiado;
+    }
+
+    public Lutador getDesafiante() {
+        return desafiante;
+    }
+
+    public void setDesafiante(Lutador desafiante) {
+        this.desafiante = desafiante;
+    }
+}Lutador.javahttps://scratch.mit.edu/projects/1075800614https://github.com/joaovitorcidralv/Ultimate-Fighting.gitLutador.javapackage ufc;
+
+import java.util.Random;
+
+public class Luta {
+    // agregação, uma classe estar contida em outra classe
+    private Lutador desafiado;
+    private Lutador desafiante;
+    private boolean aprovada;
+
+    public void marcarLuta(Lutador l1, Lutador l2){
+        if (l1.getCategoria().equals(l2.getCategoria()) && l1 != l2){
+            this.aprovada =true;
+            this.desafiado = l1;
+            this.desafiante = l2;
+        } else {
+            this.aprovada = false;
+            this.desafiado = null;
+            this.desafiante = null;
+        }
+    }
+
+    public void lutar() {
+        if (this.aprovada) {
+            System.out.println("### DESAFIADO ###");
+            this.desafiado.apresentar();
+            System.out.println("### DESAFIANTE ###");
+            this.desafiante.apresentar();
+            double probabilidadeVitoriaDesafiado = 0.383;  // 38.3% de chance de vitória sem vantagem
+            double probabilidadeVitoriaDesafiante = 0.383; // 38.3% de chance de vitória sem vantagem
+            double probabilidadeEmpate = 0.234;           // 23.4% de chance de empate sem vantagem
+
+            if (this.desafiado.getVitorias() > this.desafiante.getVitorias() &&
+                    this.desafiado.getDerrotas() < this.desafiante.getDerrotas()) {
+                probabilidadeVitoriaDesafiado = 0.523;  // 52.3% de chance de vitória com vantagem
+                probabilidadeVitoriaDesafiante = 0.203; // 20.3% de chance de vitória com vantagem
+                probabilidadeEmpate = 0.274;           // 27.4% de chance de empate com vantagem
+            } else if (this.desafiante.getVitorias() > this.desafiado.getVitorias() &&
+                    this.desafiante.getDerrotas() < this.desafiado.getDerrotas()) {
+                probabilidadeVitoriaDesafiante = 0.523;  // 52.3% de chance de vitória com vantagem
+                probabilidadeVitoriaDesafiado = 0.203;   // 20.3% de chance de vitória com vantagem
+                probabilidadeEmpate = 0.274;             // 27.4% de chance de empate com vantagem
+            }
+
+            Random random = new Random();
+            double randomValue = random.nextDouble();
+
+            if (randomValue < probabilidadeVitoriaDesafiado) {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("Vitória de " + this.desafiado.getNome());
+                System.out.println("====================================================");
+                this.desafiado.ganharLuta();
+                this.desafiante.perderLuta();
+            } else if (randomValue < probabilidadeVitoriaDesafiado + probabilidadeVitoriaDesafiante) {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("Vitória de " + this.desafiante.getNome());
+                System.out.println("====================================================");
+                this.desafiante.ganharLuta();
+                this.desafiado.perderLuta();
+            } else {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("A luta terminou em empate!");
+                System.out.println("====================================================");
+                this.desafiado.empatarLuta();
+                this.desafiante.empatarLuta();
+            }
+        } else {
+            System.out.println("Esta luta não pode acontecer, categorias diferentes!");
+        }
+    }
+
+    public Lutador getDesafiado() {
+        return desafiado;
+    }
+
+    public void setDesafiado(Lutador desafiado) {
+        this.desafiado = desafiado;
+    }
+
+    public Lutador getDesafiante() {
+        return desafiante;
+    }
+
+    public void setDesafiante(Lutador desafiante) {
+        this.desafiante = desafiante;
+    }
+}gh repo clone joaovitorcidralv/Ultimate-Fightinghttps://github.com/joaovitorcidralv/Ultimate-Fighting.githttps://scratch.mit.edu/projects/1089292515https://github.com/joaovitorcidralv/Ultimate-Fighting.githttps://scratch.mit.edu/projects/1089292515https://github.com/joaovitorcidralv/Ultimate-Fighting.gitgh repo clone joaovitorcidralv/Ultimate-Fightingpackage ufc;
+
+import java.util.Random;
+
+public class Luta {
+    // agregação, uma classe estar contida em outra classe
+    private Lutador desafiado;
+    private Lutador desafiante;
+    private boolean aprovada;
+
+    public void marcarLuta(Lutador l1, Lutador l2){
+        if (l1.getCategoria().equals(l2.getCategoria()) && l1 != l2){
+            this.aprovada =true;
+            this.desafiado = l1;
+            this.desafiante = l2;
+        } else {
+            this.aprovada = false;
+            this.desafiado = null;
+            this.desafiante = null;
+        }
+    }
+
+    public void lutar() {
+        if (this.aprovada) {
+            System.out.println("### DESAFIADO ###");
+            this.desafiado.apresentar();
+            System.out.println("### DESAFIANTE ###");
+            this.desafiante.apresentar();
+            double probabilidadeVitoriaDesafiado = 0.383;  // 38.3% de chance de vitória sem vantagem
+            double probabilidadeVitoriaDesafiante = 0.383; // 38.3% de chance de vitória sem vantagem
+            double probabilidadeEmpate = 0.234;           // 23.4% de chance de empate sem vantagem
+
+            if (this.desafiado.getVitorias() > this.desafiante.getVitorias() &&
+                    this.desafiado.getDerrotas() < this.desafiante.getDerrotas()) {
+                probabilidadeVitoriaDesafiado = 0.523;  // 52.3% de chance de vitória com vantagem
+                probabilidadeVitoriaDesafiante = 0.203; // 20.3% de chance de vitória com vantagem
+                probabilidadeEmpate = 0.274;           // 27.4% de chance de empate com vantagem
+            } else if (this.desafiante.getVitorias() > this.desafiado.getVitorias() &&
+                    this.desafiante.getDerrotas() < this.desafiado.getDerrotas()) {
+                probabilidadeVitoriaDesafiante = 0.523;  // 52.3% de chance de vitória com vantagem
+                probabilidadeVitoriaDesafiado = 0.203;   // 20.3% de chance de vitória com vantagem
+                probabilidadeEmpate = 0.274;             // 27.4% de chance de empate com vantagem
+            }
+
+            Random random = new Random();
+            double randomValue = random.nextDouble();
+
+            if (randomValue < probabilidadeVitoriaDesafiado) {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("Vitória de " + this.desafiado.getNome());
+                System.out.println("====================================================");
+                this.desafiado.ganharLuta();
+                this.desafiante.perderLuta();
+            } else if (randomValue < probabilidadeVitoriaDesafiado + probabilidadeVitoriaDesafiante) {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("Vitória de " + this.desafiante.getNome());
+                System.out.println("====================================================");
+                this.desafiante.ganharLuta();
+                this.desafiado.perderLuta();
+            } else {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("A luta terminou em empate!");
+                System.out.println("====================================================");
+                this.desafiado.empatarLuta();
+                this.desafiante.empatarLuta();
+            }
+        } else {
+            System.out.println("Esta luta não pode acontecer, categorias diferentes!");
+        }
+    }
+
+    public Lutador getDesafiado() {
+        return desafiado;
+    }
+
+    public void setDesafiado(Lutador desafiado) {
+        this.desafiado = desafiado;
+    }
+
+    public Lutador getDesafiante() {
+        return desafiante;
+    }
+
+    public void setDesafiante(Lutador desafiante) {
+        this.desafiante = desafiante;
+    }
+}https://scratch.mit.edu/projects/1075800614gh repo clone joaovitorcidralv/Ultimate-Fightinghttps://github.com/joaovitorcidralv/Ultimate-Fighting.gitackage ufc;
+
+public class Lutador {
+    private String nome;
+    private String nacionalidade;
+    private int idade;
+    private double altura;
+    private double peso;
+    private String categoria;
+    private int vitorias;
+    private int derrotas;
+    private int empates;
+
+    public void apresentar(){
+        System.out.println("------------------------------------------------------------------");
+        System.out.println("Chegou a hora! Apresentamos o lutador " + this.getNome());
+        System.out.println("Diretamente de " + this.getNacionalidade());
+        System.out.println("com " + this.getIdade() + " anos e " + this.getAltura() + " metros");
+        System.out.println("pesando " + this.getPeso() + "Kg");
+        System.out.println(this.getVitorias() + " vitórias ");
+        System.out.println(this.getDerrotas() + " derrotas ");
+        System.out.println(this.getEmpates() + " empates! ");
+    }
+
+    //apresentação simples
+    public void status(){
+        System.out.println(this.getNome() + " é um " + this.getCategoria());
+        System.out.println("Ganhou " + this.getVitorias() + " vezes");
+        System.out.println("Perdeu " + this.getDerrotas() + " vezes");
+        System.out.println("Empatou " + this.getEmpates() + " vezes");
+    }
+
+    public void ganharLuta(){
+        this.setVitorias(getVitorias() + 1);
+    }
+
+    public void perderLuta(){
+        this.setDerrotas(getDerrotas() + 1);
+    }
+
+    public void empatarLuta(){
+        this.setEmpates(getEmpates() + 1);
+    }
+
+    public Lutador(String nome, String nacionalidade, int idade, double altura, double peso, int vitorias, int derrotas, int empates) {
+        this.nome = nome;
+        this.nacionalidade = nacionalidade;
+        this.idade = idade;
+        this.altura = altura;
+        this.setPeso(peso);
+        this.vitorias = vitorias;
+        this.derrotas = derrotas;
+        this.empates = empates;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getNacionalidade() {
+        return nacionalidade;
+    }
+
+    public void setNacionalidade(String nacionalidade) {
+        this.nacionalidade = nacionalidade;
+    }
+
+    public int getIdade() {
+        return idade;
+    }
+
+    public void setIdade(int idade) {
+        this.idade = idade;
+    }
+
+    public double getAltura() {
+        return altura;
+    }
+
+    public void setAltura(double altura) {
+        this.altura = altura;
+    }
+
+    public double getPeso() {
+        return peso;
+    }
+
+    public void setPeso(double peso) {
+        this.peso = peso;
+        this.setCategoria();
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    //categoria de acordo com o peso
+    private void setCategoria() {
+        if (this.peso < 52.6){
+            this.categoria = "Peso-Palha";
+        } else if (this.peso < 56.7) {
+            this.categoria = "Peso-Mosca";
+        } else if (this.peso < 61.2) {
+            this.categoria = "Peso-Galo";
+        } else if (this.peso < 65.7) {
+            this.categoria = "Peso-Pena";
+        } else if (this.peso < 70.3) {
+            this.categoria = "Peso-Leve";
+        } else if (this.peso < 77.1) {
+            this.categoria = "Peso Meio-Médio";
+        } else if (this.peso < 83.9){
+            this.categoria = "Peso-Médio";
+        } else if (this.peso < 92.9) {
+            this.categoria = "Peso Meio-Pesado";
+        } else if (this.peso < 120.2) {
+            this.categoria = "Peso Pesado";
+        } else {
+            System.out.println("Não se enquadra nas categorias, não pode lutar!");
+
+        }
+    }
+
+    public int getVitorias() {
+        return vitorias;
+    }
+
+    public void setVitorias(int vitorias) {
+        this.vitorias = vitorias;
+    }
+
+    public int getDerrotas() {
+        return derrotas;
+    }
+
+    public void setDerrotas(int derrotas) {
+        this.derrotas = derrotas;
+    }
+
+    public int getEmpates() {
+        return empates;
+    }
+
+    public void setEmpates(int empates) {
+        this.empates = empates;
+    }
+}Lutador.javapackage ufc;
+
+import java.util.Random;
+
+public class Luta {
+    // agregação, uma classe estar contida em outra classe
+    private Lutador desafiado;
+    private Lutador desafiante;
+    private boolean aprovada;
+
+    public void marcarLuta(Lutador l1, Lutador l2){
+        if (l1.getCategoria().equals(l2.getCategoria()) && l1 != l2){
+            this.aprovada =true;
+            this.desafiado = l1;
+            this.desafiante = l2;
+        } else {
+            this.aprovada = false;
+            this.desafiado = null;
+            this.desafiante = null;
+        }
+    }
+
+    public void lutar() {
+        if (this.aprovada) {
+            System.out.println("### DESAFIADO ###");
+            this.desafiado.apresentar();
+            System.out.println("### DESAFIANTE ###");
+            this.desafiante.apresentar();
+            double probabilidadeVitoriaDesafiado = 0.383;  // 38.3% de chance de vitória sem vantagem
+            double probabilidadeVitoriaDesafiante = 0.383; // 38.3% de chance de vitória sem vantagem
+            double probabilidadeEmpate = 0.234;           // 23.4% de chance de empate sem vantagem
+
+            if (this.desafiado.getVitorias() > this.desafiante.getVitorias() &&
+                    this.desafiado.getDerrotas() < this.desafiante.getDerrotas()) {
+                probabilidadeVitoriaDesafiado = 0.523;  // 52.3% de chance de vitória com vantagem
+                probabilidadeVitoriaDesafiante = 0.203; // 20.3% de chance de vitória com vantagem
+                probabilidadeEmpate = 0.274;           // 27.4% de chance de empate com vantagem
+            } else if (this.desafiante.getVitorias() > this.desafiado.getVitorias() &&
+                    this.desafiante.getDerrotas() < this.desafiado.getDerrotas()) {
+                probabilidadeVitoriaDesafiante = 0.523;  // 52.3% de chance de vitória com vantagem
+                probabilidadeVitoriaDesafiado = 0.203;   // 20.3% de chance de vitória com vantagem
+                probabilidadeEmpate = 0.274;             // 27.4% de chance de empate com vantagem
+            }
+
+            Random random = new Random();
+            double randomValue = random.nextDouble();
+
+            if (randomValue < probabilidadeVitoriaDesafiado) {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("Vitória de " + this.desafiado.getNome());
+                System.out.println("====================================================");
+                this.desafiado.ganharLuta();
+                this.desafiante.perderLuta();
+            } else if (randomValue < probabilidadeVitoriaDesafiado + probabilidadeVitoriaDesafiante) {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("Vitória de " + this.desafiante.getNome());
+                System.out.println("====================================================");
+                this.desafiante.ganharLuta();
+                this.desafiado.perderLuta();
+            } else {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("A luta terminou em empate!");
+                System.out.println("====================================================");
+                this.desafiado.empatarLuta();
+                this.desafiante.empatarLuta();
+            }
+        } else {
+            System.out.println("Esta luta não pode acontecer, categorias diferentes!");
+        }
+    }
+
+    public Lutador getDesafiado() {
+        return desafiado;
+    }
+
+    public void setDesafiado(Lutador desafiado) {
+        this.desafiado = desafiado;
+    }
+
+    public Lutador getDesafiante() {
+        return desafiante;
+    }
+
+    public void setDesafiante(Lutador desafiante) {
+        this.desafiante = desafiante;
+    }
+}gh repo clone joaovitorcidralv/Ultimate-Fightinggh repo clone joaovitorcidralv/Ultimate-Fightinggh repo clone joaovitorcidralv/Ultimate-Fightingpackage ufc;
+
+import java.util.Random;
+
+public class Luta {
+    // agregação, uma classe estar contida em outra classe
+    private Lutador desafiado;
+    private Lutador desafiante;
+    private boolean aprovada;
+
+    public void marcarLuta(Lutador l1, Lutador l2){
+        if (l1.getCategoria().equals(l2.getCategoria()) && l1 != l2){
+            this.aprovada =true;
+            this.desafiado = l1;
+            this.desafiante = l2;
+        } else {
+            this.aprovada = false;
+            this.desafiado = null;
+            this.desafiante = null;
+        }
+    }
+
+    public void lutar() {
+        if (this.aprovada) {
+            System.out.println("### DESAFIADO ###");
+            this.desafiado.apresentar();
+            System.out.println("### DESAFIANTE ###");
+            this.desafiante.apresentar();
+            double probabilidadeVitoriaDesafiado = 0.383;  // 38.3% de chance de vitória sem vantagem
+            double probabilidadeVitoriaDesafiante = 0.383; // 38.3% de chance de vitória sem vantagem
+            double probabilidadeEmpate = 0.234;           // 23.4% de chance de empate sem vantagem
+
+            if (this.desafiado.getVitorias() > this.desafiante.getVitorias() &&
+                    this.desafiado.getDerrotas() < this.desafiante.getDerrotas()) {
+                probabilidadeVitoriaDesafiado = 0.523;  // 52.3% de chance de vitória com vantagem
+                probabilidadeVitoriaDesafiante = 0.203; // 20.3% de chance de vitória com vantagem
+                probabilidadeEmpate = 0.274;           // 27.4% de chance de empate com vantagem
+            } else if (this.desafiante.getVitorias() > this.desafiado.getVitorias() &&
+                    this.desafiante.getDerrotas() < this.desafiado.getDerrotas()) {
+                probabilidadeVitoriaDesafiante = 0.523;  // 52.3% de chance de vitória com vantagem
+                probabilidadeVitoriaDesafiado = 0.203;   // 20.3% de chance de vitória com vantagem
+                probabilidadeEmpate = 0.274;             // 27.4% de chance de empate com vantagem
+            }
+
+            Random random = new Random();
+            double randomValue = random.nextDouble();
+
+            if (randomValue < probabilidadeVitoriaDesafiado) {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("Vitória de " + this.desafiado.getNome());
+                System.out.println("====================================================");
+                this.desafiado.ganharLuta();
+                this.desafiante.perderLuta();
+            } else if (randomValue < probabilidadeVitoriaDesafiado + probabilidadeVitoriaDesafiante) {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("Vitória de " + this.desafiante.getNome());
+                System.out.println("====================================================");
+                this.desafiante.ganharLuta();
+                this.desafiado.perderLuta();
+            } else {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("A luta terminou em empate!");
+                System.out.println("====================================================");
+                this.desafiado.empatarLuta();
+                this.desafiante.empatarLuta();
+            }
+        } else {
+            System.out.println("Esta luta não pode acontecer, categorias diferentes!");
+        }
+    }
+
+    public Lutador getDesafiado() {
+        return desafiado;
+    }
+
+    public void setDesafiado(Lutador desafiado) {
+        this.desafiado = desafiado;
+    }
+
+    public Lutador getDesafiante() {
+        return desafiante;
+    }
+
+    public void setDesafiante(Lutador desafiante) {
+        this.desafiante = desafiante;
+    }
+}ackage ufc;
+
+public class Lutador {
+    private String nome;
+    private String nacionalidade;
+    private int idade;
+    private double altura;
+    private double peso;
+    private String categoria;
+    private int vitorias;
+    private int derrotas;
+    private int empates;
+
+    public void apresentar(){
+        System.out.println("------------------------------------------------------------------");
+        System.out.println("Chegou a hora! Apresentamos o lutador " + this.getNome());
+        System.out.println("Diretamente de " + this.getNacionalidade());
+        System.out.println("com " + this.getIdade() + " anos e " + this.getAltura() + " metros");
+        System.out.println("pesando " + this.getPeso() + "Kg");
+        System.out.println(this.getVitorias() + " vitórias ");
+        System.out.println(this.getDerrotas() + " derrotas ");
+        System.out.println(this.getEmpates() + " empates! ");
+    }
+
+    //apresentação simples
+    public void status(){
+        System.out.println(this.getNome() + " é um " + this.getCategoria());
+        System.out.println("Ganhou " + this.getVitorias() + " vezes");
+        System.out.println("Perdeu " + this.getDerrotas() + " vezes");
+        System.out.println("Empatou " + this.getEmpates() + " vezes");
+    }
+
+    public void ganharLuta(){
+        this.setVitorias(getVitorias() + 1);
+    }
+
+    public void perderLuta(){
+        this.setDerrotas(getDerrotas() + 1);
+    }
+
+    public void empatarLuta(){
+        this.setEmpates(getEmpates() + 1);
+    }
+
+    public Lutador(String nome, String nacionalidade, int idade, double altura, double peso, int vitorias, int derrotas, int empates) {
+        this.nome = nome;
+        this.nacionalidade = nacionalidade;
+        this.idade = idade;
+        this.altura = altura;
+        this.setPeso(peso);
+        this.vitorias = vitorias;
+        this.derrotas = derrotas;
+        this.empates = empates;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getNacionalidade() {
+        return nacionalidade;
+    }
+
+    public void setNacionalidade(String nacionalidade) {
+        this.nacionalidade = nacionalidade;
+    }
+
+    public int getIdade() {
+        return idade;
+    }
+
+    public void setIdade(int idade) {
+        this.idade = idade;
+    }
+
+    public double getAltura() {
+        return altura;
+    }
+
+    public void setAltura(double altura) {
+        this.altura = altura;
+    }
+
+    public double getPeso() {
+        return peso;
+    }
+
+    public void setPeso(double peso) {
+        this.peso = peso;
+        this.setCategoria();
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    //categoria de acordo com o peso
+    private void setCategoria() {
+        if (this.peso < 52.6){
+            this.categoria = "Peso-Palha";
+        } else if (this.peso < 56.7) {
+            this.categoria = "Peso-Mosca";
+        } else if (this.peso < 61.2) {
+            this.categoria = "Peso-Galo";
+        } else if (this.peso < 65.7) {
+            this.categoria = "Peso-Pena";
+        } else if (this.peso < 70.3) {
+            this.categoria = "Peso-Leve";
+        } else if (this.peso < 77.1) {
+            this.categoria = "Peso Meio-Médio";
+        } else if (this.peso < 83.9){
+            this.categoria = "Peso-Médio";
+        } else if (this.peso < 92.9) {
+            this.categoria = "Peso Meio-Pesado";
+        } else if (this.peso < 120.2) {
+            this.categoria = "Peso Pesado";
+        } else {
+            System.out.println("Não se enquadra nas categorias, não pode lutar!");
+
+        }
+    }
+
+    public int getVitorias() {
+        return vitorias;
+    }
+
+    public void setVitorias(int vitorias) {
+        this.vitorias = vitorias;
+    }
+
+    public int getDerrotas() {
+        return derrotas;
+    }
+
+    public void setDerrotas(int derrotas) {
+        this.derrotas = derrotas;
+    }
+
+    public int getEmpates() {
+        return empates;
+    }
+
+    public void setEmpates(int empates) {
+        this.empates = empates;
+    }
+}Lutador.javahttps://scratch.mit.edu/projects/1075800614package ufc;
+
+public class Lutador {
+    private String nome;
+    private String nacionalidade;
+    private int idade;
+    private double altura;
+    private double peso;
+    private String categoria;
+    private int vitorias;
+    private int derrotas;
+    private int empates;
+
+    public void apresentar(){
+        System.out.println("------------------------------------------------------------------");
+        System.out.println("Chegou a hora! Apresentamos o lutador " + this.getNome());
+        System.out.println("Diretamente de " + this.getNacionalidade());
+        System.out.println("com " + this.getIdade() + " anos e " + this.getAltura() + " metros");
+        System.out.println("pesando " + this.getPeso() + "Kg");
+        System.out.println(this.getVitorias() + " vitórias ");
+        System.out.println(this.getDerrotas() + " derrotas ");
+        System.out.println(this.getEmpates() + " empates! ");
+    }
+
+    //apresentação simples
+    public void status(){
+        System.out.println(this.getNome() + " é um " + this.getCategoria());
+        System.out.println("Ganhou " + this.getVitorias() + " vezes");
+        System.out.println("Perdeu " + this.getDerrotas() + " vezes");
+        System.out.println("Empatou " + this.getEmpates() + " vezes");
+    }
+
+    public void ganharLuta(){
+        this.setVitorias(getVitorias() + 1);
+    }
+
+    public void perderLuta(){
+        this.setDerrotas(getDerrotas() + 1);
+    }
+
+    public void empatarLuta(){
+        this.setEmpates(getEmpates() + 1);
+    }
+
+    public Lutador(String nome, String nacionalidade, int idade, double altura, double peso, int vitorias, int derrotas, int empates) {
+        this.nome = nome;
+        this.nacionalidade = nacionalidade;
+        this.idade = idade;
+        this.altura = altura;
+        this.setPeso(peso);
+        this.vitorias = vitorias;
+        this.derrotas = derrotas;
+        this.empates = empates;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getNacionalidade() {
+        return nacionalidade;
+    }
+
+    public void setNacionalidade(String nacionalidade) {
+        this.nacionalidade = nacionalidade;
+    }
+
+    public int getIdade() {
+        return idade;
+    }
+
+    public void setIdade(int idade) {
+        this.idade = idade;
+    }
+
+    public double getAltura() {
+        return altura;
+    }
+
+    public void setAltura(double altura) {
+        this.altura = altura;
+    }
+
+    public double getPeso() {
+        return peso;
+    }
+
+    public void setPeso(double peso) {
+        this.peso = peso;
+        this.setCategoria();
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    //categoria de acordo com o peso
+    private void setCategoria() {
+        if (this.peso < 52.6){
+            this.categoria = "Peso-Palha";
+        } else if (this.peso < 56.7) {
+            this.categoria = "Peso-Mosca";
+        } else if (this.peso < 61.2) {
+            this.categoria = "Peso-Galo";
+        } else if (this.peso < 65.7) {
+            this.categoria = "Peso-Pena";
+        } else if (this.peso < 70.3) {
+            this.categoria = "Peso-Leve";
+        } else if (this.peso < 77.1) {
+            this.categoria = "Peso Meio-Médio";
+        } else if (this.peso < 83.9){
+            this.categoria = "Peso-Médio";
+        } else if (this.peso < 92.9) {
+            this.categoria = "Peso Meio-Pesado";
+        } else if (this.peso < 120.2) {
+            this.categoria = "Peso Pesado";
+        } else {
+            System.out.println("Não se enquadra nas categorias, não pode lutar!");
+
+        }
+    }
+
+    public int getVitorias() {
+        return vitorias;
+    }
+
+    public void setVitorias(int vitorias) {
+        this.vitorias = vitorias;
+    }
+
+    public int getDerrotas() {
+        return derrotas;
+    }
+
+    public void setDerrotas(int derrotas) {
+        this.derrotas = derrotas;
+    }
+
+    public int getEmpates() {
+        return empates;
+    }
+
+    public void setEmpates(int empates) {
+        this.empates = empates;
+    }
+}package ufc;
+
+import java.util.Random;
+
+public class Luta {
+    // agregação, uma classe estar contida em outra classe
+    private Lutador desafiado;
+    private Lutador desafiante;
+    private boolean aprovada;
+
+    public void marcarLuta(Lutador l1, Lutador l2){
+        if (l1.getCategoria().equals(l2.getCategoria()) && l1 != l2){
+            this.aprovada =true;
+            this.desafiado = l1;
+            this.desafiante = l2;
+        } else {
+            this.aprovada = false;
+            this.desafiado = null;
+            this.desafiante = null;
+        }
+    }
+
+    public void lutar() {
+        if (this.aprovada) {
+            System.out.println("### DESAFIADO ###");
+            this.desafiado.apresentar();
+            System.out.println("### DESAFIANTE ###");
+            this.desafiante.apresentar();
+            double probabilidadeVitoriaDesafiado = 0.383;  // 38.3% de chance de vitória sem vantagem
+            double probabilidadeVitoriaDesafiante = 0.383; // 38.3% de chance de vitória sem vantagem
+            double probabilidadeEmpate = 0.234;           // 23.4% de chance de empate sem vantagem
+
+            if (this.desafiado.getVitorias() > this.desafiante.getVitorias() &&
+                    this.desafiado.getDerrotas() < this.desafiante.getDerrotas()) {
+                probabilidadeVitoriaDesafiado = 0.523;  // 52.3% de chance de vitória com vantagem
+                probabilidadeVitoriaDesafiante = 0.203; // 20.3% de chance de vitória com vantagem
+                probabilidadeEmpate = 0.274;           // 27.4% de chance de empate com vantagem
+            } else if (this.desafiante.getVitorias() > this.desafiado.getVitorias() &&
+                    this.desafiante.getDerrotas() < this.desafiado.getDerrotas()) {
+                probabilidadeVitoriaDesafiante = 0.523;  // 52.3% de chance de vitória com vantagem
+                probabilidadeVitoriaDesafiado = 0.203;   // 20.3% de chance de vitória com vantagem
+                probabilidadeEmpate = 0.274;             // 27.4% de chance de empate com vantagem
+            }
+
+            Random random = new Random();
+            double randomValue = random.nextDouble();
+
+            if (randomValue < probabilidadeVitoriaDesafiado) {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("Vitória de " + this.desafiado.getNome());
+                System.out.println("====================================================");
+                this.desafiado.ganharLuta();
+                this.desafiante.perderLuta();
+            } else if (randomValue < probabilidadeVitoriaDesafiado + probabilidadeVitoriaDesafiante) {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("Vitória de " + this.desafiante.getNome());
+                System.out.println("====================================================");
+                this.desafiante.ganharLuta();
+                this.desafiado.perderLuta();
+            } else {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("A luta terminou em empate!");
+                System.out.println("====================================================");
+                this.desafiado.empatarLuta();
+                this.desafiante.empatarLuta();
+            }
+        } else {
+            System.out.println("Esta luta não pode acontecer, categorias diferentes!");
+        }
+    }
+
+    public Lutador getDesafiado() {
+        return desafiado;
+    }
+
+    public void setDesafiado(Lutador desafiado) {
+        this.desafiado = desafiado;
+    }
+
+    public Lutador getDesafiante() {
+        return desafiante;
+    }
+
+    public void setDesafiante(Lutador desafiante) {
+        this.desafiante = desafiante;
+    }
+}Lutador.javaackage ufc;
+
+public class Lutador {
+    private String nome;
+    private String nacionalidade;
+    private int idade;
+    private double altura;
+    private double peso;
+    private String categoria;
+    private int vitorias;
+    private int derrotas;
+    private int empates;
+
+    public void apresentar(){
+        System.out.println("------------------------------------------------------------------");
+        System.out.println("Chegou a hora! Apresentamos o lutador " + this.getNome());
+        System.out.println("Diretamente de " + this.getNacionalidade());
+        System.out.println("com " + this.getIdade() + " anos e " + this.getAltura() + " metros");
+        System.out.println("pesando " + this.getPeso() + "Kg");
+        System.out.println(this.getVitorias() + " vitórias ");
+        System.out.println(this.getDerrotas() + " derrotas ");
+        System.out.println(this.getEmpates() + " empates! ");
+    }
+
+    //apresentação simples
+    public void status(){
+        System.out.println(this.getNome() + " é um " + this.getCategoria());
+        System.out.println("Ganhou " + this.getVitorias() + " vezes");
+        System.out.println("Perdeu " + this.getDerrotas() + " vezes");
+        System.out.println("Empatou " + this.getEmpates() + " vezes");
+    }
+
+    public void ganharLuta(){
+        this.setVitorias(getVitorias() + 1);
+    }
+
+    public void perderLuta(){
+        this.setDerrotas(getDerrotas() + 1);
+    }
+
+    public void empatarLuta(){
+        this.setEmpates(getEmpates() + 1);
+    }
+
+    public Lutador(String nome, String nacionalidade, int idade, double altura, double peso, int vitorias, int derrotas, int empates) {
+        this.nome = nome;
+        this.nacionalidade = nacionalidade;
+        this.idade = idade;
+        this.altura = altura;
+        this.setPeso(peso);
+        this.vitorias = vitorias;
+        this.derrotas = derrotas;
+        this.empates = empates;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getNacionalidade() {
+        return nacionalidade;
+    }
+
+    public void setNacionalidade(String nacionalidade) {
+        this.nacionalidade = nacionalidade;
+    }
+
+    public int getIdade() {
+        return idade;
+    }
+
+    public void setIdade(int idade) {
+        this.idade = idade;
+    }
+
+    public double getAltura() {
+        return altura;
+    }
+
+    public void setAltura(double altura) {
+        this.altura = altura;
+    }
+
+    public double getPeso() {
+        return peso;
+    }
+
+    public void setPeso(double peso) {
+        this.peso = peso;
+        this.setCategoria();
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    //categoria de acordo com o peso
+    private void setCategoria() {
+        if (this.peso < 52.6){
+            this.categoria = "Peso-Palha";
+        } else if (this.peso < 56.7) {
+            this.categoria = "Peso-Mosca";
+        } else if (this.peso < 61.2) {
+            this.categoria = "Peso-Galo";
+        } else if (this.peso < 65.7) {
+            this.categoria = "Peso-Pena";
+        } else if (this.peso < 70.3) {
+            this.categoria = "Peso-Leve";
+        } else if (this.peso < 77.1) {
+            this.categoria = "Peso Meio-Médio";
+        } else if (this.peso < 83.9){
+            this.categoria = "Peso-Médio";
+        } else if (this.peso < 92.9) {
+            this.categoria = "Peso Meio-Pesado";
+        } else if (this.peso < 120.2) {
+            this.categoria = "Peso Pesado";
+        } else {
+            System.out.println("Não se enquadra nas categorias, não pode lutar!");
+
+        }
+    }
+
+    public int getVitorias() {
+        return vitorias;
+    }
+
+    public void setVitorias(int vitorias) {
+        this.vitorias = vitorias;
+    }
+
+    public int getDerrotas() {
+        return derrotas;
+    }
+
+    public void setDerrotas(int derrotas) {
+        this.derrotas = derrotas;
+    }
+
+    public int getEmpates() {
+        return empates;
+    }
+
+    public void setEmpates(int empates) {
+        this.empates = empates;
+    }
+}https://scratch.mit.edu/projects/1075800614https://scratch.mit.edu/projects/1069650185https://scratch.mit.edu/projects/107580061415, 16, 18, 19, 19, 16, 20, 17, 15, 20, 20, 16, 19, 20, 17, 16, 17, 19, 20, 19, 15package ufc;
+
+import java.util.Random;
+
+public class Luta {
+    // agregação, uma classe estar contida em outra classe
+    private Lutador desafiado;
+    private Lutador desafiante;
+    private boolean aprovada;
+
+    public void marcarLuta(Lutador l1, Lutador l2){
+        if (l1.getCategoria().equals(l2.getCategoria()) && l1 != l2){
+            this.aprovada =true;
+            this.desafiado = l1;
+            this.desafiante = l2;
+        } else {
+            this.aprovada = false;
+            this.desafiado = null;
+            this.desafiante = null;
+        }
+    }
+
+    public void lutar() {
+        if (this.aprovada) {
+            System.out.println("### DESAFIADO ###");
+            this.desafiado.apresentar();
+            System.out.println("### DESAFIANTE ###");
+            this.desafiante.apresentar();
+            double probabilidadeVitoriaDesafiado = 0.383;  // 38.3% de chance de vitória sem vantagem
+            double probabilidadeVitoriaDesafiante = 0.383; // 38.3% de chance de vitória sem vantagem
+            double probabilidadeEmpate = 0.234;           // 23.4% de chance de empate sem vantagem
+
+            if (this.desafiado.getVitorias() > this.desafiante.getVitorias() &&
+                    this.desafiado.getDerrotas() < this.desafiante.getDerrotas()) {
+                probabilidadeVitoriaDesafiado = 0.523;  // 52.3% de chance de vitória com vantagem
+                probabilidadeVitoriaDesafiante = 0.203; // 20.3% de chance de vitória com vantagem
+                probabilidadeEmpate = 0.274;           // 27.4% de chance de empate com vantagem
+            } else if (this.desafiante.getVitorias() > this.desafiado.getVitorias() &&
+                    this.desafiante.getDerrotas() < this.desafiado.getDerrotas()) {
+                probabilidadeVitoriaDesafiante = 0.523;  // 52.3% de chance de vitória com vantagem
+                probabilidadeVitoriaDesafiado = 0.203;   // 20.3% de chance de vitória com vantagem
+                probabilidadeEmpate = 0.274;             // 27.4% de chance de empate com vantagem
+            }
+
+            Random random = new Random();
+            double randomValue = random.nextDouble();
+
+            if (randomValue < probabilidadeVitoriaDesafiado) {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("Vitória de " + this.desafiado.getNome());
+                System.out.println("====================================================");
+                this.desafiado.ganharLuta();
+                this.desafiante.perderLuta();
+            } else if (randomValue < probabilidadeVitoriaDesafiado + probabilidadeVitoriaDesafiante) {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("Vitória de " + this.desafiante.getNome());
+                System.out.println("====================================================");
+                this.desafiante.ganharLuta();
+                this.desafiado.perderLuta();
+            } else {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("A luta terminou em empate!");
+                System.out.println("====================================================");
+                this.desafiado.empatarLuta();
+                this.desafiante.empatarLuta();
+            }
+        } else {
+            System.out.println("Esta luta não pode acontecer, categorias diferentes!");
+        }
+    }
+
+    public Lutador getDesafiado() {
+        return desafiado;
+    }
+
+    public void setDesafiado(Lutador desafiado) {
+        this.desafiado = desafiado;
+    }
+
+    public Lutador getDesafiante() {
+        return desafiante;
+    }
+
+    public void setDesafiante(Lutador desafiante) {
+        this.desafiante = desafiante;
+    }
+}ackage ufc;
+
+public class Lutador {
+    private String nome;
+    private String nacionalidade;
+    private int idade;
+    private double altura;
+    private double peso;
+    private String categoria;
+    private int vitorias;
+    private int derrotas;
+    private int empates;
+
+    public void apresentar(){
+        System.out.println("------------------------------------------------------------------");
+        System.out.println("Chegou a hora! Apresentamos o lutador " + this.getNome());
+        System.out.println("Diretamente de " + this.getNacionalidade());
+        System.out.println("com " + this.getIdade() + " anos e " + this.getAltura() + " metros");
+        System.out.println("pesando " + this.getPeso() + "Kg");
+        System.out.println(this.getVitorias() + " vitórias ");
+        System.out.println(this.getDerrotas() + " derrotas ");
+        System.out.println(this.getEmpates() + " empates! ");
+    }
+
+    //apresentação simples
+    public void status(){
+        System.out.println(this.getNome() + " é um " + this.getCategoria());
+        System.out.println("Ganhou " + this.getVitorias() + " vezes");
+        System.out.println("Perdeu " + this.getDerrotas() + " vezes");
+        System.out.println("Empatou " + this.getEmpates() + " vezes");
+    }
+
+    public void ganharLuta(){
+        this.setVitorias(getVitorias() + 1);
+    }
+
+    public void perderLuta(){
+        this.setDerrotas(getDerrotas() + 1);
+    }
+
+    public void empatarLuta(){
+        this.setEmpates(getEmpates() + 1);
+    }
+
+    public Lutador(String nome, String nacionalidade, int idade, double altura, double peso, int vitorias, int derrotas, int empates) {
+        this.nome = nome;
+        this.nacionalidade = nacionalidade;
+        this.idade = idade;
+        this.altura = altura;
+        this.setPeso(peso);
+        this.vitorias = vitorias;
+        this.derrotas = derrotas;
+        this.empates = empates;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getNacionalidade() {
+        return nacionalidade;
+    }
+
+    public void setNacionalidade(String nacionalidade) {
+        this.nacionalidade = nacionalidade;
+    }
+
+    public int getIdade() {
+        return idade;
+    }
+
+    public void setIdade(int idade) {
+        this.idade = idade;
+    }
+
+    public double getAltura() {
+        return altura;
+    }
+
+    public void setAltura(double altura) {
+        this.altura = altura;
+    }
+
+    public double getPeso() {
+        return peso;
+    }
+
+    public void setPeso(double peso) {
+        this.peso = peso;
+        this.setCategoria();
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    //categoria de acordo com o peso
+    private void setCategoria() {
+        if (this.peso < 52.6){
+            this.categoria = "Peso-Palha";
+        } else if (this.peso < 56.7) {
+            this.categoria = "Peso-Mosca";
+        } else if (this.peso < 61.2) {
+            this.categoria = "Peso-Galo";
+        } else if (this.peso < 65.7) {
+            this.categoria = "Peso-Pena";
+        } else if (this.peso < 70.3) {
+            this.categoria = "Peso-Leve";
+        } else if (this.peso < 77.1) {
+            this.categoria = "Peso Meio-Médio";
+        } else if (this.peso < 83.9){
+            this.categoria = "Peso-Médio";
+        } else if (this.peso < 92.9) {
+            this.categoria = "Peso Meio-Pesado";
+        } else if (this.peso < 120.2) {
+            this.categoria = "Peso Pesado";
+        } else {
+            System.out.println("Não se enquadra nas categorias, não pode lutar!");
+
+        }
+    }
+
+    public int getVitorias() {
+        return vitorias;
+    }
+
+    public void setVitorias(int vitorias) {
+        this.vitorias = vitorias;
+    }
+
+    public int getDerrotas() {
+        return derrotas;
+    }
+
+    public void setDerrotas(int derrotas) {
+        this.derrotas = derrotas;
+    }
+
+    public int getEmpates() {
+        return empates;
+    }
+
+    public void setEmpates(int empates) {
+        this.empates = empates;
+    }
+}https://scratch.mit.edu/projects/1075800614gh repo clone joaovitorcidralv/Ultimate-Fightinghttps://github.com/joaovitorcidralv/Ultimate-Fighting.git15, 16, 18, 19, 19, 16, 20, 17, 15, 20, 20, 16, 19, 20, 17, 16, 17, 19, 20, 19, 15https://scratch.mit.edu/projects/1069650185ackage ufc;
+
+public class Lutador {
+    private String nome;
+    private String nacionalidade;
+    private int idade;
+    private double altura;
+    private double peso;
+    private String categoria;
+    private int vitorias;
+    private int derrotas;
+    private int empates;
+
+    public void apresentar(){
+        System.out.println("------------------------------------------------------------------");
+        System.out.println("Chegou a hora! Apresentamos o lutador " + this.getNome());
+        System.out.println("Diretamente de " + this.getNacionalidade());
+        System.out.println("com " + this.getIdade() + " anos e " + this.getAltura() + " metros");
+        System.out.println("pesando " + this.getPeso() + "Kg");
+        System.out.println(this.getVitorias() + " vitórias ");
+        System.out.println(this.getDerrotas() + " derrotas ");
+        System.out.println(this.getEmpates() + " empates! ");
+    }
+
+    //apresentação simples
+    public void status(){
+        System.out.println(this.getNome() + " é um " + this.getCategoria());
+        System.out.println("Ganhou " + this.getVitorias() + " vezes");
+        System.out.println("Perdeu " + this.getDerrotas() + " vezes");
+        System.out.println("Empatou " + this.getEmpates() + " vezes");
+    }
+
+    public void ganharLuta(){
+        this.setVitorias(getVitorias() + 1);
+    }
+
+    public void perderLuta(){
+        this.setDerrotas(getDerrotas() + 1);
+    }
+
+    public void empatarLuta(){
+        this.setEmpates(getEmpates() + 1);
+    }
+
+    public Lutador(String nome, String nacionalidade, int idade, double altura, double peso, int vitorias, int derrotas, int empates) {
+        this.nome = nome;
+        this.nacionalidade = nacionalidade;
+        this.idade = idade;
+        this.altura = altura;
+        this.setPeso(peso);
+        this.vitorias = vitorias;
+        this.derrotas = derrotas;
+        this.empates = empates;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getNacionalidade() {
+        return nacionalidade;
+    }
+
+    public void setNacionalidade(String nacionalidade) {
+        this.nacionalidade = nacionalidade;
+    }
+
+    public int getIdade() {
+        return idade;
+    }
+
+    public void setIdade(int idade) {
+        this.idade = idade;
+    }
+
+    public double getAltura() {
+        return altura;
+    }
+
+    public void setAltura(double altura) {
+        this.altura = altura;
+    }
+
+    public double getPeso() {
+        return peso;
+    }
+
+    public void setPeso(double peso) {
+        this.peso = peso;
+        this.setCategoria();
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    //categoria de acordo com o peso
+    private void setCategoria() {
+        if (this.peso < 52.6){
+            this.categoria = "Peso-Palha";
+        } else if (this.peso < 56.7) {
+            this.categoria = "Peso-Mosca";
+        } else if (this.peso < 61.2) {
+            this.categoria = "Peso-Galo";
+        } else if (this.peso < 65.7) {
+            this.categoria = "Peso-Pena";
+        } else if (this.peso < 70.3) {
+            this.categoria = "Peso-Leve";
+        } else if (this.peso < 77.1) {
+            this.categoria = "Peso Meio-Médio";
+        } else if (this.peso < 83.9){
+            this.categoria = "Peso-Médio";
+        } else if (this.peso < 92.9) {
+            this.categoria = "Peso Meio-Pesado";
+        } else if (this.peso < 120.2) {
+            this.categoria = "Peso Pesado";
+        } else {
+            System.out.println("Não se enquadra nas categorias, não pode lutar!");
+
+        }
+    }
+
+    public int getVitorias() {
+        return vitorias;
+    }
+
+    public void setVitorias(int vitorias) {
+        this.vitorias = vitorias;
+    }
+
+    public int getDerrotas() {
+        return derrotas;
+    }
+
+    public void setDerrotas(int derrotas) {
+        this.derrotas = derrotas;
+    }
+
+    public int getEmpates() {
+        return empates;
+    }
+
+    public void setEmpates(int empates) {
+        this.empates = empates;
+    }
+}gh repo clone joaovitorcidralv/Ultimate-Fightinghttps://scratch.mit.edu/projects/107580061415, 16, 18, 19, 19, 16, 20, 17, 15, 20, 20, 16, 19, 20, 17, 16, 17, 19, 20, 19, 15package ufc;
+
+import java.util.Random;
+
+public class Luta {
+    // agregação, uma classe estar contida em outra classe
+    private Lutador desafiado;
+    private Lutador desafiante;
+    private boolean aprovada;
+
+    public void marcarLuta(Lutador l1, Lutador l2){
+        if (l1.getCategoria().equals(l2.getCategoria()) && l1 != l2){
+            this.aprovada =true;
+            this.desafiado = l1;
+            this.desafiante = l2;
+        } else {
+            this.aprovada = false;
+            this.desafiado = null;
+            this.desafiante = null;
+        }
+    }
+
+    public void lutar() {
+        if (this.aprovada) {
+            System.out.println("### DESAFIADO ###");
+            this.desafiado.apresentar();
+            System.out.println("### DESAFIANTE ###");
+            this.desafiante.apresentar();
+            double probabilidadeVitoriaDesafiado = 0.383;  // 38.3% de chance de vitória sem vantagem
+            double probabilidadeVitoriaDesafiante = 0.383; // 38.3% de chance de vitória sem vantagem
+            double probabilidadeEmpate = 0.234;           // 23.4% de chance de empate sem vantagem
+
+            if (this.desafiado.getVitorias() > this.desafiante.getVitorias() &&
+                    this.desafiado.getDerrotas() < this.desafiante.getDerrotas()) {
+                probabilidadeVitoriaDesafiado = 0.523;  // 52.3% de chance de vitória com vantagem
+                probabilidadeVitoriaDesafiante = 0.203; // 20.3% de chance de vitória com vantagem
+                probabilidadeEmpate = 0.274;           // 27.4% de chance de empate com vantagem
+            } else if (this.desafiante.getVitorias() > this.desafiado.getVitorias() &&
+                    this.desafiante.getDerrotas() < this.desafiado.getDerrotas()) {
+                probabilidadeVitoriaDesafiante = 0.523;  // 52.3% de chance de vitória com vantagem
+                probabilidadeVitoriaDesafiado = 0.203;   // 20.3% de chance de vitória com vantagem
+                probabilidadeEmpate = 0.274;             // 27.4% de chance de empate com vantagem
+            }
+
+            Random random = new Random();
+            double randomValue = random.nextDouble();
+
+            if (randomValue < probabilidadeVitoriaDesafiado) {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("Vitória de " + this.desafiado.getNome());
+                System.out.println("====================================================");
+                this.desafiado.ganharLuta();
+                this.desafiante.perderLuta();
+            } else if (randomValue < probabilidadeVitoriaDesafiado + probabilidadeVitoriaDesafiante) {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("Vitória de " + this.desafiante.getNome());
+                System.out.println("====================================================");
+                this.desafiante.ganharLuta();
+                this.desafiado.perderLuta();
+            } else {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("A luta terminou em empate!");
+                System.out.println("====================================================");
+                this.desafiado.empatarLuta();
+                this.desafiante.empatarLuta();
+            }
+        } else {
+            System.out.println("Esta luta não pode acontecer, categorias diferentes!");
+        }
+    }
+
+    public Lutador getDesafiado() {
+        return desafiado;
+    }
+
+    public void setDesafiado(Lutador desafiado) {
+        this.desafiado = desafiado;
+    }
+
+    public Lutador getDesafiante() {
+        return desafiante;
+    }
+
+    public void setDesafiante(Lutador desafiante) {
+        this.desafiante = desafiante;
+    }
+}15, 16, 18, 19, 19, 16, 20, 17, 15, 20, 20, 16, 19, 20, 17, 16, 17, 19, 20, 19, 1515, 16, 18, 19, 19, 16, 20, 17, 15, 20, 20, 16, 19, 20, 17, 16, 17, 19, 20, 19, 15https://github.com/joaovitorcidralv/Ultimate-Fighting.gitpackage ufc;
+
+import java.util.Random;
+
+public class Luta {
+    // agregação, uma classe estar contida em outra classe
+    private Lutador desafiado;
+    private Lutador desafiante;
+    private boolean aprovada;
+
+    public void marcarLuta(Lutador l1, Lutador l2){
+        if (l1.getCategoria().equals(l2.getCategoria()) && l1 != l2){
+            this.aprovada =true;
+            this.desafiado = l1;
+            this.desafiante = l2;
+        } else {
+            this.aprovada = false;
+            this.desafiado = null;
+            this.desafiante = null;
+        }
+    }
+
+    public void lutar() {
+        if (this.aprovada) {
+            System.out.println("### DESAFIADO ###");
+            this.desafiado.apresentar();
+            System.out.println("### DESAFIANTE ###");
+            this.desafiante.apresentar();
+            double probabilidadeVitoriaDesafiado = 0.383;  // 38.3% de chance de vitória sem vantagem
+            double probabilidadeVitoriaDesafiante = 0.383; // 38.3% de chance de vitória sem vantagem
+            double probabilidadeEmpate = 0.234;           // 23.4% de chance de empate sem vantagem
+
+            if (this.desafiado.getVitorias() > this.desafiante.getVitorias() &&
+                    this.desafiado.getDerrotas() < this.desafiante.getDerrotas()) {
+                probabilidadeVitoriaDesafiado = 0.523;  // 52.3% de chance de vitória com vantagem
+                probabilidadeVitoriaDesafiante = 0.203; // 20.3% de chance de vitória com vantagem
+                probabilidadeEmpate = 0.274;           // 27.4% de chance de empate com vantagem
+            } else if (this.desafiante.getVitorias() > this.desafiado.getVitorias() &&
+                    this.desafiante.getDerrotas() < this.desafiado.getDerrotas()) {
+                probabilidadeVitoriaDesafiante = 0.523;  // 52.3% de chance de vitória com vantagem
+                probabilidadeVitoriaDesafiado = 0.203;   // 20.3% de chance de vitória com vantagem
+                probabilidadeEmpate = 0.274;             // 27.4% de chance de empate com vantagem
+            }
+
+            Random random = new Random();
+            double randomValue = random.nextDouble();
+
+            if (randomValue < probabilidadeVitoriaDesafiado) {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("Vitória de " + this.desafiado.getNome());
+                System.out.println("====================================================");
+                this.desafiado.ganharLuta();
+                this.desafiante.perderLuta();
+            } else if (randomValue < probabilidadeVitoriaDesafiado + probabilidadeVitoriaDesafiante) {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("Vitória de " + this.desafiante.getNome());
+                System.out.println("====================================================");
+                this.desafiante.ganharLuta();
+                this.desafiado.perderLuta();
+            } else {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("A luta terminou em empate!");
+                System.out.println("====================================================");
+                this.desafiado.empatarLuta();
+                this.desafiante.empatarLuta();
+            }
+        } else {
+            System.out.println("Esta luta não pode acontecer, categorias diferentes!");
+        }
+    }
+
+    public Lutador getDesafiado() {
+        return desafiado;
+    }
+
+    public void setDesafiado(Lutador desafiado) {
+        this.desafiado = desafiado;
+    }
+
+    public Lutador getDesafiante() {
+        return desafiante;
+    }
+
+    public void setDesafiante(Lutador desafiante) {
+        this.desafiante = desafiante;
+    }
+}gh repo clone joaovitorcidralv/Ultimate-Fightinghttps://scratch.mit.edu/projects/1069650185ackage ufc;
+
+public class Lutador {
+    private String nome;
+    private String nacionalidade;
+    private int idade;
+    private double altura;
+    private double peso;
+    private String categoria;
+    private int vitorias;
+    private int derrotas;
+    private int empates;
+
+    public void apresentar(){
+        System.out.println("------------------------------------------------------------------");
+        System.out.println("Chegou a hora! Apresentamos o lutador " + this.getNome());
+        System.out.println("Diretamente de " + this.getNacionalidade());
+        System.out.println("com " + this.getIdade() + " anos e " + this.getAltura() + " metros");
+        System.out.println("pesando " + this.getPeso() + "Kg");
+        System.out.println(this.getVitorias() + " vitórias ");
+        System.out.println(this.getDerrotas() + " derrotas ");
+        System.out.println(this.getEmpates() + " empates! ");
+    }
+
+    //apresentação simples
+    public void status(){
+        System.out.println(this.getNome() + " é um " + this.getCategoria());
+        System.out.println("Ganhou " + this.getVitorias() + " vezes");
+        System.out.println("Perdeu " + this.getDerrotas() + " vezes");
+        System.out.println("Empatou " + this.getEmpates() + " vezes");
+    }
+
+    public void ganharLuta(){
+        this.setVitorias(getVitorias() + 1);
+    }
+
+    public void perderLuta(){
+        this.setDerrotas(getDerrotas() + 1);
+    }
+
+    public void empatarLuta(){
+        this.setEmpates(getEmpates() + 1);
+    }
+
+    public Lutador(String nome, String nacionalidade, int idade, double altura, double peso, int vitorias, int derrotas, int empates) {
+        this.nome = nome;
+        this.nacionalidade = nacionalidade;
+        this.idade = idade;
+        this.altura = altura;
+        this.setPeso(peso);
+        this.vitorias = vitorias;
+        this.derrotas = derrotas;
+        this.empates = empates;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getNacionalidade() {
+        return nacionalidade;
+    }
+
+    public void setNacionalidade(String nacionalidade) {
+        this.nacionalidade = nacionalidade;
+    }
+
+    public int getIdade() {
+        return idade;
+    }
+
+    public void setIdade(int idade) {
+        this.idade = idade;
+    }
+
+    public double getAltura() {
+        return altura;
+    }
+
+    public void setAltura(double altura) {
+        this.altura = altura;
+    }
+
+    public double getPeso() {
+        return peso;
+    }
+
+    public void setPeso(double peso) {
+        this.peso = peso;
+        this.setCategoria();
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    //categoria de acordo com o peso
+    private void setCategoria() {
+        if (this.peso < 52.6){
+            this.categoria = "Peso-Palha";
+        } else if (this.peso < 56.7) {
+            this.categoria = "Peso-Mosca";
+        } else if (this.peso < 61.2) {
+            this.categoria = "Peso-Galo";
+        } else if (this.peso < 65.7) {
+            this.categoria = "Peso-Pena";
+        } else if (this.peso < 70.3) {
+            this.categoria = "Peso-Leve";
+        } else if (this.peso < 77.1) {
+            this.categoria = "Peso Meio-Médio";
+        } else if (this.peso < 83.9){
+            this.categoria = "Peso-Médio";
+        } else if (this.peso < 92.9) {
+            this.categoria = "Peso Meio-Pesado";
+        } else if (this.peso < 120.2) {
+            this.categoria = "Peso Pesado";
+        } else {
+            System.out.println("Não se enquadra nas categorias, não pode lutar!");
+
+        }
+    }
+
+    public int getVitorias() {
+        return vitorias;
+    }
+
+    public void setVitorias(int vitorias) {
+        this.vitorias = vitorias;
+    }
+
+    public int getDerrotas() {
+        return derrotas;
+    }
+
+    public void setDerrotas(int derrotas) {
+        this.derrotas = derrotas;
+    }
+
+    public int getEmpates() {
+        return empates;
+    }
+
+    public void setEmpates(int empates) {
+        this.empates = empates;
+    }
+}gh repo clone joaovitorcidralv/Ultimate-Fightingpackage ufc;
+
+import java.util.Random;
+
+public class Luta {
+    // agregação, uma classe estar contida em outra classe
+    private Lutador desafiado;
+    private Lutador desafiante;
+    private boolean aprovada;
+
+    public void marcarLuta(Lutador l1, Lutador l2){
+        if (l1.getCategoria().equals(l2.getCategoria()) && l1 != l2){
+            this.aprovada =true;
+            this.desafiado = l1;
+            this.desafiante = l2;
+        } else {
+            this.aprovada = false;
+            this.desafiado = null;
+            this.desafiante = null;
+        }
+    }
+
+    public void lutar() {
+        if (this.aprovada) {
+            System.out.println("### DESAFIADO ###");
+            this.desafiado.apresentar();
+            System.out.println("### DESAFIANTE ###");
+            this.desafiante.apresentar();
+            double probabilidadeVitoriaDesafiado = 0.383;  // 38.3% de chance de vitória sem vantagem
+            double probabilidadeVitoriaDesafiante = 0.383; // 38.3% de chance de vitória sem vantagem
+            double probabilidadeEmpate = 0.234;           // 23.4% de chance de empate sem vantagem
+
+            if (this.desafiado.getVitorias() > this.desafiante.getVitorias() &&
+                    this.desafiado.getDerrotas() < this.desafiante.getDerrotas()) {
+                probabilidadeVitoriaDesafiado = 0.523;  // 52.3% de chance de vitória com vantagem
+                probabilidadeVitoriaDesafiante = 0.203; // 20.3% de chance de vitória com vantagem
+                probabilidadeEmpate = 0.274;           // 27.4% de chance de empate com vantagem
+            } else if (this.desafiante.getVitorias() > this.desafiado.getVitorias() &&
+                    this.desafiante.getDerrotas() < this.desafiado.getDerrotas()) {
+                probabilidadeVitoriaDesafiante = 0.523;  // 52.3% de chance de vitória com vantagem
+                probabilidadeVitoriaDesafiado = 0.203;   // 20.3% de chance de vitória com vantagem
+                probabilidadeEmpate = 0.274;             // 27.4% de chance de empate com vantagem
+            }
+
+            Random random = new Random();
+            double randomValue = random.nextDouble();
+
+            if (randomValue < probabilidadeVitoriaDesafiado) {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("Vitória de " + this.desafiado.getNome());
+                System.out.println("====================================================");
+                this.desafiado.ganharLuta();
+                this.desafiante.perderLuta();
+            } else if (randomValue < probabilidadeVitoriaDesafiado + probabilidadeVitoriaDesafiante) {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("Vitória de " + this.desafiante.getNome());
+                System.out.println("====================================================");
+                this.desafiante.ganharLuta();
+                this.desafiado.perderLuta();
+            } else {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("A luta terminou em empate!");
+                System.out.println("====================================================");
+                this.desafiado.empatarLuta();
+                this.desafiante.empatarLuta();
+            }
+        } else {
+            System.out.println("Esta luta não pode acontecer, categorias diferentes!");
+        }
+    }
+
+    public Lutador getDesafiado() {
+        return desafiado;
+    }
+
+    public void setDesafiado(Lutador desafiado) {
+        this.desafiado = desafiado;
+    }
+
+    public Lutador getDesafiante() {
+        return desafiante;
+    }
+
+    public void setDesafiante(Lutador desafiante) {
+        this.desafiante = desafiante;
+    }
+}https://scratch.mit.edu/projects/1075800614https://scratch.mit.edu/projects/1075800614https://scratch.mit.edu/projects/1075781647package ufc;
+
+import java.util.Random;
+
+public class Luta {
+    // agregação, uma classe estar contida em outra classe
+    private Lutador desafiado;
+    private Lutador desafiante;
+    private boolean aprovada;
+
+    public void marcarLuta(Lutador l1, Lutador l2){
+        if (l1.getCategoria().equals(l2.getCategoria()) && l1 != l2){
+            this.aprovada =true;
+            this.desafiado = l1;
+            this.desafiante = l2;
+        } else {
+            this.aprovada = false;
+            this.desafiado = null;
+            this.desafiante = null;
+        }
+    }
+
+    public void lutar() {
+        if (this.aprovada) {
+            System.out.println("### DESAFIADO ###");
+            this.desafiado.apresentar();
+            System.out.println("### DESAFIANTE ###");
+            this.desafiante.apresentar();
+            double probabilidadeVitoriaDesafiado = 0.383;  // 38.3% de chance de vitória sem vantagem
+            double probabilidadeVitoriaDesafiante = 0.383; // 38.3% de chance de vitória sem vantagem
+            double probabilidadeEmpate = 0.234;           // 23.4% de chance de empate sem vantagem
+
+            if (this.desafiado.getVitorias() > this.desafiante.getVitorias() &&
+                    this.desafiado.getDerrotas() < this.desafiante.getDerrotas()) {
+                probabilidadeVitoriaDesafiado = 0.523;  // 52.3% de chance de vitória com vantagem
+                probabilidadeVitoriaDesafiante = 0.203; // 20.3% de chance de vitória com vantagem
+                probabilidadeEmpate = 0.274;           // 27.4% de chance de empate com vantagem
+            } else if (this.desafiante.getVitorias() > this.desafiado.getVitorias() &&
+                    this.desafiante.getDerrotas() < this.desafiado.getDerrotas()) {
+                probabilidadeVitoriaDesafiante = 0.523;  // 52.3% de chance de vitória com vantagem
+                probabilidadeVitoriaDesafiado = 0.203;   // 20.3% de chance de vitória com vantagem
+                probabilidadeEmpate = 0.274;             // 27.4% de chance de empate com vantagem
+            }
+
+            Random random = new Random();
+            double randomValue = random.nextDouble();
+
+            if (randomValue < probabilidadeVitoriaDesafiado) {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("Vitória de " + this.desafiado.getNome());
+                System.out.println("====================================================");
+                this.desafiado.ganharLuta();
+                this.desafiante.perderLuta();
+            } else if (randomValue < probabilidadeVitoriaDesafiado + probabilidadeVitoriaDesafiante) {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("Vitória de " + this.desafiante.getNome());
+                System.out.println("====================================================");
+                this.desafiante.ganharLuta();
+                this.desafiado.perderLuta();
+            } else {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("A luta terminou em empate!");
+                System.out.println("====================================================");
+                this.desafiado.empatarLuta();
+                this.desafiante.empatarLuta();
+            }
+        } else {
+            System.out.println("Esta luta não pode acontecer, categorias diferentes!");
+        }
+    }
+
+    public Lutador getDesafiado() {
+        return desafiado;
+    }
+
+    public void setDesafiado(Lutador desafiado) {
+        this.desafiado = desafiado;
+    }
+
+    public Lutador getDesafiante() {
+        return desafiante;
+    }
+
+    public void setDesafiante(Lutador desafiante) {
+        this.desafiante = desafiante;
+    }
+}ackage ufc;
+
+public class Lutador {
+    private String nome;
+    private String nacionalidade;
+    private int idade;
+    private double altura;
+    private double peso;
+    private String categoria;
+    private int vitorias;
+    private int derrotas;
+    private int empates;
+
+    public void apresentar(){
+        System.out.println("------------------------------------------------------------------");
+        System.out.println("Chegou a hora! Apresentamos o lutador " + this.getNome());
+        System.out.println("Diretamente de " + this.getNacionalidade());
+        System.out.println("com " + this.getIdade() + " anos e " + this.getAltura() + " metros");
+        System.out.println("pesando " + this.getPeso() + "Kg");
+        System.out.println(this.getVitorias() + " vitórias ");
+        System.out.println(this.getDerrotas() + " derrotas ");
+        System.out.println(this.getEmpates() + " empates! ");
+    }
+
+    //apresentação simples
+    public void status(){
+        System.out.println(this.getNome() + " é um " + this.getCategoria());
+        System.out.println("Ganhou " + this.getVitorias() + " vezes");
+        System.out.println("Perdeu " + this.getDerrotas() + " vezes");
+        System.out.println("Empatou " + this.getEmpates() + " vezes");
+    }
+
+    public void ganharLuta(){
+        this.setVitorias(getVitorias() + 1);
+    }
+
+    public void perderLuta(){
+        this.setDerrotas(getDerrotas() + 1);
+    }
+
+    public void empatarLuta(){
+        this.setEmpates(getEmpates() + 1);
+    }
+
+    public Lutador(String nome, String nacionalidade, int idade, double altura, double peso, int vitorias, int derrotas, int empates) {
+        this.nome = nome;
+        this.nacionalidade = nacionalidade;
+        this.idade = idade;
+        this.altura = altura;
+        this.setPeso(peso);
+        this.vitorias = vitorias;
+        this.derrotas = derrotas;
+        this.empates = empates;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getNacionalidade() {
+        return nacionalidade;
+    }
+
+    public void setNacionalidade(String nacionalidade) {
+        this.nacionalidade = nacionalidade;
+    }
+
+    public int getIdade() {
+        return idade;
+    }
+
+    public void setIdade(int idade) {
+        this.idade = idade;
+    }
+
+    public double getAltura() {
+        return altura;
+    }
+
+    public void setAltura(double altura) {
+        this.altura = altura;
+    }
+
+    public double getPeso() {
+        return peso;
+    }
+
+    public void setPeso(double peso) {
+        this.peso = peso;
+        this.setCategoria();
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    //categoria de acordo com o peso
+    private void setCategoria() {
+        if (this.peso < 52.6){
+            this.categoria = "Peso-Palha";
+        } else if (this.peso < 56.7) {
+            this.categoria = "Peso-Mosca";
+        } else if (this.peso < 61.2) {
+            this.categoria = "Peso-Galo";
+        } else if (this.peso < 65.7) {
+            this.categoria = "Peso-Pena";
+        } else if (this.peso < 70.3) {
+            this.categoria = "Peso-Leve";
+        } else if (this.peso < 77.1) {
+            this.categoria = "Peso Meio-Médio";
+        } else if (this.peso < 83.9){
+            this.categoria = "Peso-Médio";
+        } else if (this.peso < 92.9) {
+            this.categoria = "Peso Meio-Pesado";
+        } else if (this.peso < 120.2) {
+            this.categoria = "Peso Pesado";
+        } else {
+            System.out.println("Não se enquadra nas categorias, não pode lutar!");
+
+        }
+    }
+
+    public int getVitorias() {
+        return vitorias;
+    }
+
+    public void setVitorias(int vitorias) {
+        this.vitorias = vitorias;
+    }
+
+    public int getDerrotas() {
+        return derrotas;
+    }
+
+    public void setDerrotas(int derrotas) {
+        this.derrotas = derrotas;
+    }
+
+    public int getEmpates() {
+        return empates;
+    }
+
+    public void setEmpates(int empates) {
+        this.empates = empates;
+    }
+}gh repo clone joaovitorcidralv/Ultimate-Fightinghttps://scratch.mit.edu/projects/107580061415, 16, 18, 19, 19, 16, 20, 17, 15, 20, 20, 16, 19, 20, 17, 16, 17, 19, 20, 19, 15package ufc;
+
+public class Lutador {
+    private String nome;
+    private String nacionalidade;
+    private int idade;
+    private double altura;
+    private double peso;
+    private String categoria;
+    private int vitorias;
+    private int derrotas;
+    private int empates;
+
+    public void apresentar(){
+        System.out.println("------------------------------------------------------------------");
+        System.out.println("Chegou a hora! Apresentamos o lutador " + this.getNome());
+        System.out.println("Diretamente de " + this.getNacionalidade());
+        System.out.println("com " + this.getIdade() + " anos e " + this.getAltura() + " metros");
+        System.out.println("pesando " + this.getPeso() + "Kg");
+        System.out.println(this.getVitorias() + " vitórias ");
+        System.out.println(this.getDerrotas() + " derrotas ");
+        System.out.println(this.getEmpates() + " empates! ");
+    }
+
+    //apresentação simples
+    public void status(){
+        System.out.println(this.getNome() + " é um " + this.getCategoria());
+        System.out.println("Ganhou " + this.getVitorias() + " vezes");
+        System.out.println("Perdeu " + this.getDerrotas() + " vezes");
+        System.out.println("Empatou " + this.getEmpates() + " vezes");
+    }
+
+    public void ganharLuta(){
+        this.setVitorias(getVitorias() + 1);
+    }
+
+    public void perderLuta(){
+        this.setDerrotas(getDerrotas() + 1);
+    }
+
+    public void empatarLuta(){
+        this.setEmpates(getEmpates() + 1);
+    }
+
+    public Lutador(String nome, String nacionalidade, int idade, double altura, double peso, int vitorias, int derrotas, int empates) {
+        this.nome = nome;
+        this.nacionalidade = nacionalidade;
+        this.idade = idade;
+        this.altura = altura;
+        this.setPeso(peso);
+        this.vitorias = vitorias;
+        this.derrotas = derrotas;
+        this.empates = empates;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getNacionalidade() {
+        return nacionalidade;
+    }
+
+    public void setNacionalidade(String nacionalidade) {
+        this.nacionalidade = nacionalidade;
+    }
+
+    public int getIdade() {
+        return idade;
+    }
+
+    public void setIdade(int idade) {
+        this.idade = idade;
+    }
+
+    public double getAltura() {
+        return altura;
+    }
+
+    public void setAltura(double altura) {
+        this.altura = altura;
+    }
+
+    public double getPeso() {
+        return peso;
+    }
+
+    public void setPeso(double peso) {
+        this.peso = peso;
+        this.setCategoria();
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    //categoria de acordo com o peso
+    private void setCategoria() {
+        if (this.peso < 52.6){
+            this.categoria = "Peso-Palha";
+        } else if (this.peso < 56.7) {
+            this.categoria = "Peso-Mosca";
+        } else if (this.peso < 61.2) {
+            this.categoria = "Peso-Galo";
+        } else if (this.peso < 65.7) {
+            this.categoria = "Peso-Pena";
+        } else if (this.peso < 70.3) {
+            this.categoria = "Peso-Leve";
+        } else if (this.peso < 77.1) {
+            this.categoria = "Peso Meio-Médio";
+        } else if (this.peso < 83.9){
+            this.categoria = "Peso-Médio";
+        } else if (this.peso < 92.9) {
+            this.categoria = "Peso Meio-Pesado";
+        } else if (this.peso < 120.2) {
+            this.categoria = "Peso Pesado";
+        } else {
+            System.out.println("Não se enquadra nas categorias, não pode lutar!");
+
+        }
+    }
+
+    public int getVitorias() {
+        return vitorias;
+    }
+
+    public void setVitorias(int vitorias) {
+        this.vitorias = vitorias;
+    }
+
+    public int getDerrotas() {
+        return derrotas;
+    }
+
+    public void setDerrotas(int derrotas) {
+        this.derrotas = derrotas;
+    }
+
+    public int getEmpates() {
+        return empates;
+    }
+
+    public void setEmpates(int empates) {
+        this.empates = empates;
+    }
+}Lutador.java15, 16, 18, 19, 19, 16, 20, 17, 15, 20, 20, 16, 19, 20, 17, 16, 17, 19, 20, 19, 15ackage ufc;
+
+public class Lutador {
+    private String nome;
+    private String nacionalidade;
+    private int idade;
+    private double altura;
+    private double peso;
+    private String categoria;
+    private int vitorias;
+    private int derrotas;
+    private int empates;
+
+    public void apresentar(){
+        System.out.println("------------------------------------------------------------------");
+        System.out.println("Chegou a hora! Apresentamos o lutador " + this.getNome());
+        System.out.println("Diretamente de " + this.getNacionalidade());
+        System.out.println("com " + this.getIdade() + " anos e " + this.getAltura() + " metros");
+        System.out.println("pesando " + this.getPeso() + "Kg");
+        System.out.println(this.getVitorias() + " vitórias ");
+        System.out.println(this.getDerrotas() + " derrotas ");
+        System.out.println(this.getEmpates() + " empates! ");
+    }
+
+    //apresentação simples
+    public void status(){
+        System.out.println(this.getNome() + " é um " + this.getCategoria());
+        System.out.println("Ganhou " + this.getVitorias() + " vezes");
+        System.out.println("Perdeu " + this.getDerrotas() + " vezes");
+        System.out.println("Empatou " + this.getEmpates() + " vezes");
+    }
+
+    public void ganharLuta(){
+        this.setVitorias(getVitorias() + 1);
+    }
+
+    public void perderLuta(){
+        this.setDerrotas(getDerrotas() + 1);
+    }
+
+    public void empatarLuta(){
+        this.setEmpates(getEmpates() + 1);
+    }
+
+    public Lutador(String nome, String nacionalidade, int idade, double altura, double peso, int vitorias, int derrotas, int empates) {
+        this.nome = nome;
+        this.nacionalidade = nacionalidade;
+        this.idade = idade;
+        this.altura = altura;
+        this.setPeso(peso);
+        this.vitorias = vitorias;
+        this.derrotas = derrotas;
+        this.empates = empates;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getNacionalidade() {
+        return nacionalidade;
+    }
+
+    public void setNacionalidade(String nacionalidade) {
+        this.nacionalidade = nacionalidade;
+    }
+
+    public int getIdade() {
+        return idade;
+    }
+
+    public void setIdade(int idade) {
+        this.idade = idade;
+    }
+
+    public double getAltura() {
+        return altura;
+    }
+
+    public void setAltura(double altura) {
+        this.altura = altura;
+    }
+
+    public double getPeso() {
+        return peso;
+    }
+
+    public void setPeso(double peso) {
+        this.peso = peso;
+        this.setCategoria();
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    //categoria de acordo com o peso
+    private void setCategoria() {
+        if (this.peso < 52.6){
+            this.categoria = "Peso-Palha";
+        } else if (this.peso < 56.7) {
+            this.categoria = "Peso-Mosca";
+        } else if (this.peso < 61.2) {
+            this.categoria = "Peso-Galo";
+        } else if (this.peso < 65.7) {
+            this.categoria = "Peso-Pena";
+        } else if (this.peso < 70.3) {
+            this.categoria = "Peso-Leve";
+        } else if (this.peso < 77.1) {
+            this.categoria = "Peso Meio-Médio";
+        } else if (this.peso < 83.9){
+            this.categoria = "Peso-Médio";
+        } else if (this.peso < 92.9) {
+            this.categoria = "Peso Meio-Pesado";
+        } else if (this.peso < 120.2) {
+            this.categoria = "Peso Pesado";
+        } else {
+            System.out.println("Não se enquadra nas categorias, não pode lutar!");
+
+        }
+    }
+
+    public int getVitorias() {
+        return vitorias;
+    }
+
+    public void setVitorias(int vitorias) {
+        this.vitorias = vitorias;
+    }
+
+    public int getDerrotas() {
+        return derrotas;
+    }
+
+    public void setDerrotas(int derrotas) {
+        this.derrotas = derrotas;
+    }
+
+    public int getEmpates() {
+        return empates;
+    }
+
+    public void setEmpates(int empates) {
+        this.empates = empates;
+    }
+}package ufc;
+
+import java.util.Random;
+
+public class Luta {
+    // agregação, uma classe estar contida em outra classe
+    private Lutador desafiado;
+    private Lutador desafiante;
+    private boolean aprovada;
+
+    public void marcarLuta(Lutador l1, Lutador l2){
+        if (l1.getCategoria().equals(l2.getCategoria()) && l1 != l2){
+            this.aprovada =true;
+            this.desafiado = l1;
+            this.desafiante = l2;
+        } else {
+            this.aprovada = false;
+            this.desafiado = null;
+            this.desafiante = null;
+        }
+    }
+
+    public void lutar() {
+        if (this.aprovada) {
+            System.out.println("### DESAFIADO ###");
+            this.desafiado.apresentar();
+            System.out.println("### DESAFIANTE ###");
+            this.desafiante.apresentar();
+            double probabilidadeVitoriaDesafiado = 0.383;  // 38.3% de chance de vitória sem vantagem
+            double probabilidadeVitoriaDesafiante = 0.383; // 38.3% de chance de vitória sem vantagem
+            double probabilidadeEmpate = 0.234;           // 23.4% de chance de empate sem vantagem
+
+            if (this.desafiado.getVitorias() > this.desafiante.getVitorias() &&
+                    this.desafiado.getDerrotas() < this.desafiante.getDerrotas()) {
+                probabilidadeVitoriaDesafiado = 0.523;  // 52.3% de chance de vitória com vantagem
+                probabilidadeVitoriaDesafiante = 0.203; // 20.3% de chance de vitória com vantagem
+                probabilidadeEmpate = 0.274;           // 27.4% de chance de empate com vantagem
+            } else if (this.desafiante.getVitorias() > this.desafiado.getVitorias() &&
+                    this.desafiante.getDerrotas() < this.desafiado.getDerrotas()) {
+                probabilidadeVitoriaDesafiante = 0.523;  // 52.3% de chance de vitória com vantagem
+                probabilidadeVitoriaDesafiado = 0.203;   // 20.3% de chance de vitória com vantagem
+                probabilidadeEmpate = 0.274;             // 27.4% de chance de empate com vantagem
+            }
+
+            Random random = new Random();
+            double randomValue = random.nextDouble();
+
+            if (randomValue < probabilidadeVitoriaDesafiado) {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("Vitória de " + this.desafiado.getNome());
+                System.out.println("====================================================");
+                this.desafiado.ganharLuta();
+                this.desafiante.perderLuta();
+            } else if (randomValue < probabilidadeVitoriaDesafiado + probabilidadeVitoriaDesafiante) {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("Vitória de " + this.desafiante.getNome());
+                System.out.println("====================================================");
+                this.desafiante.ganharLuta();
+                this.desafiado.perderLuta();
+            } else {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("A luta terminou em empate!");
+                System.out.println("====================================================");
+                this.desafiado.empatarLuta();
+                this.desafiante.empatarLuta();
+            }
+        } else {
+            System.out.println("Esta luta não pode acontecer, categorias diferentes!");
+        }
+    }
+
+    public Lutador getDesafiado() {
+        return desafiado;
+    }
+
+    public void setDesafiado(Lutador desafiado) {
+        this.desafiado = desafiado;
+    }
+
+    public Lutador getDesafiante() {
+        return desafiante;
+    }
+
+    public void setDesafiante(Lutador desafiante) {
+        this.desafiante = desafiante;
+    }
+}https://scratch.mit.edu/projects/1069650185https://scratch.mit.edu/projects/1075781647https://scratch.mit.edu/projects/1069650185Lutador.javahttps://scratch.mit.edu/projects/1075800614ackage ufc;
+
+public class Lutador {
+    private String nome;
+    private String nacionalidade;
+    private int idade;
+    private double altura;
+    private double peso;
+    private String categoria;
+    private int vitorias;
+    private int derrotas;
+    private int empates;
+
+    public void apresentar(){
+        System.out.println("------------------------------------------------------------------");
+        System.out.println("Chegou a hora! Apresentamos o lutador " + this.getNome());
+        System.out.println("Diretamente de " + this.getNacionalidade());
+        System.out.println("com " + this.getIdade() + " anos e " + this.getAltura() + " metros");
+        System.out.println("pesando " + this.getPeso() + "Kg");
+        System.out.println(this.getVitorias() + " vitórias ");
+        System.out.println(this.getDerrotas() + " derrotas ");
+        System.out.println(this.getEmpates() + " empates! ");
+    }
+
+    //apresentação simples
+    public void status(){
+        System.out.println(this.getNome() + " é um " + this.getCategoria());
+        System.out.println("Ganhou " + this.getVitorias() + " vezes");
+        System.out.println("Perdeu " + this.getDerrotas() + " vezes");
+        System.out.println("Empatou " + this.getEmpates() + " vezes");
+    }
+
+    public void ganharLuta(){
+        this.setVitorias(getVitorias() + 1);
+    }
+
+    public void perderLuta(){
+        this.setDerrotas(getDerrotas() + 1);
+    }
+
+    public void empatarLuta(){
+        this.setEmpates(getEmpates() + 1);
+    }
+
+    public Lutador(String nome, String nacionalidade, int idade, double altura, double peso, int vitorias, int derrotas, int empates) {
+        this.nome = nome;
+        this.nacionalidade = nacionalidade;
+        this.idade = idade;
+        this.altura = altura;
+        this.setPeso(peso);
+        this.vitorias = vitorias;
+        this.derrotas = derrotas;
+        this.empates = empates;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getNacionalidade() {
+        return nacionalidade;
+    }
+
+    public void setNacionalidade(String nacionalidade) {
+        this.nacionalidade = nacionalidade;
+    }
+
+    public int getIdade() {
+        return idade;
+    }
+
+    public void setIdade(int idade) {
+        this.idade = idade;
+    }
+
+    public double getAltura() {
+        return altura;
+    }
+
+    public void setAltura(double altura) {
+        this.altura = altura;
+    }
+
+    public double getPeso() {
+        return peso;
+    }
+
+    public void setPeso(double peso) {
+        this.peso = peso;
+        this.setCategoria();
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    //categoria de acordo com o peso
+    private void setCategoria() {
+        if (this.peso < 52.6){
+            this.categoria = "Peso-Palha";
+        } else if (this.peso < 56.7) {
+            this.categoria = "Peso-Mosca";
+        } else if (this.peso < 61.2) {
+            this.categoria = "Peso-Galo";
+        } else if (this.peso < 65.7) {
+            this.categoria = "Peso-Pena";
+        } else if (this.peso < 70.3) {
+            this.categoria = "Peso-Leve";
+        } else if (this.peso < 77.1) {
+            this.categoria = "Peso Meio-Médio";
+        } else if (this.peso < 83.9){
+            this.categoria = "Peso-Médio";
+        } else if (this.peso < 92.9) {
+            this.categoria = "Peso Meio-Pesado";
+        } else if (this.peso < 120.2) {
+            this.categoria = "Peso Pesado";
+        } else {
+            System.out.println("Não se enquadra nas categorias, não pode lutar!");
+
+        }
+    }
+
+    public int getVitorias() {
+        return vitorias;
+    }
+
+    public void setVitorias(int vitorias) {
+        this.vitorias = vitorias;
+    }
+
+    public int getDerrotas() {
+        return derrotas;
+    }
+
+    public void setDerrotas(int derrotas) {
+        this.derrotas = derrotas;
+    }
+
+    public int getEmpates() {
+        return empates;
+    }
+
+    public void setEmpates(int empates) {
+        this.empates = empates;
+    }
+}package ufc;
+
+import java.util.Random;
+
+public class Luta {
+    // agregação, uma classe estar contida em outra classe
+    private Lutador desafiado;
+    private Lutador desafiante;
+    private boolean aprovada;
+
+    public void marcarLuta(Lutador l1, Lutador l2){
+        if (l1.getCategoria().equals(l2.getCategoria()) && l1 != l2){
+            this.aprovada =true;
+            this.desafiado = l1;
+            this.desafiante = l2;
+        } else {
+            this.aprovada = false;
+            this.desafiado = null;
+            this.desafiante = null;
+        }
+    }
+
+    public void lutar() {
+        if (this.aprovada) {
+            System.out.println("### DESAFIADO ###");
+            this.desafiado.apresentar();
+            System.out.println("### DESAFIANTE ###");
+            this.desafiante.apresentar();
+            double probabilidadeVitoriaDesafiado = 0.383;  // 38.3% de chance de vitória sem vantagem
+            double probabilidadeVitoriaDesafiante = 0.383; // 38.3% de chance de vitória sem vantagem
+            double probabilidadeEmpate = 0.234;           // 23.4% de chance de empate sem vantagem
+
+            if (this.desafiado.getVitorias() > this.desafiante.getVitorias() &&
+                    this.desafiado.getDerrotas() < this.desafiante.getDerrotas()) {
+                probabilidadeVitoriaDesafiado = 0.523;  // 52.3% de chance de vitória com vantagem
+                probabilidadeVitoriaDesafiante = 0.203; // 20.3% de chance de vitória com vantagem
+                probabilidadeEmpate = 0.274;           // 27.4% de chance de empate com vantagem
+            } else if (this.desafiante.getVitorias() > this.desafiado.getVitorias() &&
+                    this.desafiante.getDerrotas() < this.desafiado.getDerrotas()) {
+                probabilidadeVitoriaDesafiante = 0.523;  // 52.3% de chance de vitória com vantagem
+                probabilidadeVitoriaDesafiado = 0.203;   // 20.3% de chance de vitória com vantagem
+                probabilidadeEmpate = 0.274;             // 27.4% de chance de empate com vantagem
+            }
+
+            Random random = new Random();
+            double randomValue = random.nextDouble();
+
+            if (randomValue < probabilidadeVitoriaDesafiado) {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("Vitória de " + this.desafiado.getNome());
+                System.out.println("====================================================");
+                this.desafiado.ganharLuta();
+                this.desafiante.perderLuta();
+            } else if (randomValue < probabilidadeVitoriaDesafiado + probabilidadeVitoriaDesafiante) {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("Vitória de " + this.desafiante.getNome());
+                System.out.println("====================================================");
+                this.desafiante.ganharLuta();
+                this.desafiado.perderLuta();
+            } else {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("A luta terminou em empate!");
+                System.out.println("====================================================");
+                this.desafiado.empatarLuta();
+                this.desafiante.empatarLuta();
+            }
+        } else {
+            System.out.println("Esta luta não pode acontecer, categorias diferentes!");
+        }
+    }
+
+    public Lutador getDesafiado() {
+        return desafiado;
+    }
+
+    public void setDesafiado(Lutador desafiado) {
+        this.desafiado = desafiado;
+    }
+
+    public Lutador getDesafiante() {
+        return desafiante;
+    }
+
+    public void setDesafiante(Lutador desafiante) {
+        this.desafiante = desafiante;
+    }
+}15, 16, 18, 19, 19, 16, 20, 17, 15, 20, 20, 16, 19, 20, 17, 16, 17, 19, 20, 19, 15package ufc;
+
+public class Lutador {
+    private String nome;
+    private String nacionalidade;
+    private int idade;
+    private double altura;
+    private double peso;
+    private String categoria;
+    private int vitorias;
+    private int derrotas;
+    private int empates;
+
+    public void apresentar(){
+        System.out.println("------------------------------------------------------------------");
+        System.out.println("Chegou a hora! Apresentamos o lutador " + this.getNome());
+        System.out.println("Diretamente de " + this.getNacionalidade());
+        System.out.println("com " + this.getIdade() + " anos e " + this.getAltura() + " metros");
+        System.out.println("pesando " + this.getPeso() + "Kg");
+        System.out.println(this.getVitorias() + " vitórias ");
+        System.out.println(this.getDerrotas() + " derrotas ");
+        System.out.println(this.getEmpates() + " empates! ");
+    }
+
+    //apresentação simples
+    public void status(){
+        System.out.println(this.getNome() + " é um " + this.getCategoria());
+        System.out.println("Ganhou " + this.getVitorias() + " vezes");
+        System.out.println("Perdeu " + this.getDerrotas() + " vezes");
+        System.out.println("Empatou " + this.getEmpates() + " vezes");
+    }
+
+    public void ganharLuta(){
+        this.setVitorias(getVitorias() + 1);
+    }
+
+    public void perderLuta(){
+        this.setDerrotas(getDerrotas() + 1);
+    }
+
+    public void empatarLuta(){
+        this.setEmpates(getEmpates() + 1);
+    }
+
+    public Lutador(String nome, String nacionalidade, int idade, double altura, double peso, int vitorias, int derrotas, int empates) {
+        this.nome = nome;
+        this.nacionalidade = nacionalidade;
+        this.idade = idade;
+        this.altura = altura;
+        this.setPeso(peso);
+        this.vitorias = vitorias;
+        this.derrotas = derrotas;
+        this.empates = empates;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getNacionalidade() {
+        return nacionalidade;
+    }
+
+    public void setNacionalidade(String nacionalidade) {
+        this.nacionalidade = nacionalidade;
+    }
+
+    public int getIdade() {
+        return idade;
+    }
+
+    public void setIdade(int idade) {
+        this.idade = idade;
+    }
+
+    public double getAltura() {
+        return altura;
+    }
+
+    public void setAltura(double altura) {
+        this.altura = altura;
+    }
+
+    public double getPeso() {
+        return peso;
+    }
+
+    public void setPeso(double peso) {
+        this.peso = peso;
+        this.setCategoria();
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    //categoria de acordo com o peso
+    private void setCategoria() {
+        if (this.peso < 52.6){
+            this.categoria = "Peso-Palha";
+        } else if (this.peso < 56.7) {
+            this.categoria = "Peso-Mosca";
+        } else if (this.peso < 61.2) {
+            this.categoria = "Peso-Galo";
+        } else if (this.peso < 65.7) {
+            this.categoria = "Peso-Pena";
+        } else if (this.peso < 70.3) {
+            this.categoria = "Peso-Leve";
+        } else if (this.peso < 77.1) {
+            this.categoria = "Peso Meio-Médio";
+        } else if (this.peso < 83.9){
+            this.categoria = "Peso-Médio";
+        } else if (this.peso < 92.9) {
+            this.categoria = "Peso Meio-Pesado";
+        } else if (this.peso < 120.2) {
+            this.categoria = "Peso Pesado";
+        } else {
+            System.out.println("Não se enquadra nas categorias, não pode lutar!");
+
+        }
+    }
+
+    public int getVitorias() {
+        return vitorias;
+    }
+
+    public void setVitorias(int vitorias) {
+        this.vitorias = vitorias;
+    }
+
+    public int getDerrotas() {
+        return derrotas;
+    }
+
+    public void setDerrotas(int derrotas) {
+        this.derrotas = derrotas;
+    }
+
+    public int getEmpates() {
+        return empates;
+    }
+
+    public void setEmpates(int empates) {
+        this.empates = empates;
+    }
+}package ufc;
+
+import java.util.Random;
+
+public class Luta {
+    // agregação, uma classe estar contida em outra classe
+    private Lutador desafiado;
+    private Lutador desafiante;
+    private boolean aprovada;
+
+    public void marcarLuta(Lutador l1, Lutador l2){
+        if (l1.getCategoria().equals(l2.getCategoria()) && l1 != l2){
+            this.aprovada =true;
+            this.desafiado = l1;
+            this.desafiante = l2;
+        } else {
+            this.aprovada = false;
+            this.desafiado = null;
+            this.desafiante = null;
+        }
+    }
+
+    public void lutar() {
+        if (this.aprovada) {
+            System.out.println("### DESAFIADO ###");
+            this.desafiado.apresentar();
+            System.out.println("### DESAFIANTE ###");
+            this.desafiante.apresentar();
+            double probabilidadeVitoriaDesafiado = 0.383;  // 38.3% de chance de vitória sem vantagem
+            double probabilidadeVitoriaDesafiante = 0.383; // 38.3% de chance de vitória sem vantagem
+            double probabilidadeEmpate = 0.234;           // 23.4% de chance de empate sem vantagem
+
+            if (this.desafiado.getVitorias() > this.desafiante.getVitorias() &&
+                    this.desafiado.getDerrotas() < this.desafiante.getDerrotas()) {
+                probabilidadeVitoriaDesafiado = 0.523;  // 52.3% de chance de vitória com vantagem
+                probabilidadeVitoriaDesafiante = 0.203; // 20.3% de chance de vitória com vantagem
+                probabilidadeEmpate = 0.274;           // 27.4% de chance de empate com vantagem
+            } else if (this.desafiante.getVitorias() > this.desafiado.getVitorias() &&
+                    this.desafiante.getDerrotas() < this.desafiado.getDerrotas()) {
+                probabilidadeVitoriaDesafiante = 0.523;  // 52.3% de chance de vitória com vantagem
+                probabilidadeVitoriaDesafiado = 0.203;   // 20.3% de chance de vitória com vantagem
+                probabilidadeEmpate = 0.274;             // 27.4% de chance de empate com vantagem
+            }
+
+            Random random = new Random();
+            double randomValue = random.nextDouble();
+
+            if (randomValue < probabilidadeVitoriaDesafiado) {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("Vitória de " + this.desafiado.getNome());
+                System.out.println("====================================================");
+                this.desafiado.ganharLuta();
+                this.desafiante.perderLuta();
+            } else if (randomValue < probabilidadeVitoriaDesafiado + probabilidadeVitoriaDesafiante) {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("Vitória de " + this.desafiante.getNome());
+                System.out.println("====================================================");
+                this.desafiante.ganharLuta();
+                this.desafiado.perderLuta();
+            } else {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("A luta terminou em empate!");
+                System.out.println("====================================================");
+                this.desafiado.empatarLuta();
+                this.desafiante.empatarLuta();
+            }
+        } else {
+            System.out.println("Esta luta não pode acontecer, categorias diferentes!");
+        }
+    }
+
+    public Lutador getDesafiado() {
+        return desafiado;
+    }
+
+    public void setDesafiado(Lutador desafiado) {
+        this.desafiado = desafiado;
+    }
+
+    public Lutador getDesafiante() {
+        return desafiante;
+    }
+
+    public void setDesafiante(Lutador desafiante) {
+        this.desafiante = desafiante;
+    }
+}Lutador.javagh repo clone joaovitorcidralv/Ultimate-Fightinghttps://scratch.mit.edu/projects/107580061415, 16, 18, 19, 19, 16, 20, 17, 15, 20, 20, 16, 19, 20, 17, 16, 17, 19, 20, 19, 15https://github.com/joaovitorcidralv/Ultimate-Fighting.gitgh repo clone joaovitorcidralv/Ultimate-Fightingpackage ufc;
+
+import java.util.Random;
+
+public class Luta {
+    // agregação, uma classe estar contida em outra classe
+    private Lutador desafiado;
+    private Lutador desafiante;
+    private boolean aprovada;
+
+    public void marcarLuta(Lutador l1, Lutador l2){
+        if (l1.getCategoria().equals(l2.getCategoria()) && l1 != l2){
+            this.aprovada =true;
+            this.desafiado = l1;
+            this.desafiante = l2;
+        } else {
+            this.aprovada = false;
+            this.desafiado = null;
+            this.desafiante = null;
+        }
+    }
+
+    public void lutar() {
+        if (this.aprovada) {
+            System.out.println("### DESAFIADO ###");
+            this.desafiado.apresentar();
+            System.out.println("### DESAFIANTE ###");
+            this.desafiante.apresentar();
+            double probabilidadeVitoriaDesafiado = 0.383;  // 38.3% de chance de vitória sem vantagem
+            double probabilidadeVitoriaDesafiante = 0.383; // 38.3% de chance de vitória sem vantagem
+            double probabilidadeEmpate = 0.234;           // 23.4% de chance de empate sem vantagem
+
+            if (this.desafiado.getVitorias() > this.desafiante.getVitorias() &&
+                    this.desafiado.getDerrotas() < this.desafiante.getDerrotas()) {
+                probabilidadeVitoriaDesafiado = 0.523;  // 52.3% de chance de vitória com vantagem
+                probabilidadeVitoriaDesafiante = 0.203; // 20.3% de chance de vitória com vantagem
+                probabilidadeEmpate = 0.274;           // 27.4% de chance de empate com vantagem
+            } else if (this.desafiante.getVitorias() > this.desafiado.getVitorias() &&
+                    this.desafiante.getDerrotas() < this.desafiado.getDerrotas()) {
+                probabilidadeVitoriaDesafiante = 0.523;  // 52.3% de chance de vitória com vantagem
+                probabilidadeVitoriaDesafiado = 0.203;   // 20.3% de chance de vitória com vantagem
+                probabilidadeEmpate = 0.274;             // 27.4% de chance de empate com vantagem
+            }
+
+            Random random = new Random();
+            double randomValue = random.nextDouble();
+
+            if (randomValue < probabilidadeVitoriaDesafiado) {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("Vitória de " + this.desafiado.getNome());
+                System.out.println("====================================================");
+                this.desafiado.ganharLuta();
+                this.desafiante.perderLuta();
+            } else if (randomValue < probabilidadeVitoriaDesafiado + probabilidadeVitoriaDesafiante) {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("Vitória de " + this.desafiante.getNome());
+                System.out.println("====================================================");
+                this.desafiante.ganharLuta();
+                this.desafiado.perderLuta();
+            } else {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("A luta terminou em empate!");
+                System.out.println("====================================================");
+                this.desafiado.empatarLuta();
+                this.desafiante.empatarLuta();
+            }
+        } else {
+            System.out.println("Esta luta não pode acontecer, categorias diferentes!");
+        }
+    }
+
+    public Lutador getDesafiado() {
+        return desafiado;
+    }
+
+    public void setDesafiado(Lutador desafiado) {
+        this.desafiado = desafiado;
+    }
+
+    public Lutador getDesafiante() {
+        return desafiante;
+    }
+
+    public void setDesafiante(Lutador desafiante) {
+        this.desafiante = desafiante;
+    }
+}ackage ufc;
+
+public class Lutador {
+    private String nome;
+    private String nacionalidade;
+    private int idade;
+    private double altura;
+    private double peso;
+    private String categoria;
+    private int vitorias;
+    private int derrotas;
+    private int empates;
+
+    public void apresentar(){
+        System.out.println("------------------------------------------------------------------");
+        System.out.println("Chegou a hora! Apresentamos o lutador " + this.getNome());
+        System.out.println("Diretamente de " + this.getNacionalidade());
+        System.out.println("com " + this.getIdade() + " anos e " + this.getAltura() + " metros");
+        System.out.println("pesando " + this.getPeso() + "Kg");
+        System.out.println(this.getVitorias() + " vitórias ");
+        System.out.println(this.getDerrotas() + " derrotas ");
+        System.out.println(this.getEmpates() + " empates! ");
+    }
+
+    //apresentação simples
+    public void status(){
+        System.out.println(this.getNome() + " é um " + this.getCategoria());
+        System.out.println("Ganhou " + this.getVitorias() + " vezes");
+        System.out.println("Perdeu " + this.getDerrotas() + " vezes");
+        System.out.println("Empatou " + this.getEmpates() + " vezes");
+    }
+
+    public void ganharLuta(){
+        this.setVitorias(getVitorias() + 1);
+    }
+
+    public void perderLuta(){
+        this.setDerrotas(getDerrotas() + 1);
+    }
+
+    public void empatarLuta(){
+        this.setEmpates(getEmpates() + 1);
+    }
+
+    public Lutador(String nome, String nacionalidade, int idade, double altura, double peso, int vitorias, int derrotas, int empates) {
+        this.nome = nome;
+        this.nacionalidade = nacionalidade;
+        this.idade = idade;
+        this.altura = altura;
+        this.setPeso(peso);
+        this.vitorias = vitorias;
+        this.derrotas = derrotas;
+        this.empates = empates;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getNacionalidade() {
+        return nacionalidade;
+    }
+
+    public void setNacionalidade(String nacionalidade) {
+        this.nacionalidade = nacionalidade;
+    }
+
+    public int getIdade() {
+        return idade;
+    }
+
+    public void setIdade(int idade) {
+        this.idade = idade;
+    }
+
+    public double getAltura() {
+        return altura;
+    }
+
+    public void setAltura(double altura) {
+        this.altura = altura;
+    }
+
+    public double getPeso() {
+        return peso;
+    }
+
+    public void setPeso(double peso) {
+        this.peso = peso;
+        this.setCategoria();
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    //categoria de acordo com o peso
+    private void setCategoria() {
+        if (this.peso < 52.6){
+            this.categoria = "Peso-Palha";
+        } else if (this.peso < 56.7) {
+            this.categoria = "Peso-Mosca";
+        } else if (this.peso < 61.2) {
+            this.categoria = "Peso-Galo";
+        } else if (this.peso < 65.7) {
+            this.categoria = "Peso-Pena";
+        } else if (this.peso < 70.3) {
+            this.categoria = "Peso-Leve";
+        } else if (this.peso < 77.1) {
+            this.categoria = "Peso Meio-Médio";
+        } else if (this.peso < 83.9){
+            this.categoria = "Peso-Médio";
+        } else if (this.peso < 92.9) {
+            this.categoria = "Peso Meio-Pesado";
+        } else if (this.peso < 120.2) {
+            this.categoria = "Peso Pesado";
+        } else {
+            System.out.println("Não se enquadra nas categorias, não pode lutar!");
+
+        }
+    }
+
+    public int getVitorias() {
+        return vitorias;
+    }
+
+    public void setVitorias(int vitorias) {
+        this.vitorias = vitorias;
+    }
+
+    public int getDerrotas() {
+        return derrotas;
+    }
+
+    public void setDerrotas(int derrotas) {
+        this.derrotas = derrotas;
+    }
+
+    public int getEmpates() {
+        return empates;
+    }
+
+    public void setEmpates(int empates) {
+        this.empates = empates;
+    }
+}https://scratch.mit.edu/projects/1075800614package ufc;
+
+import java.util.Random;
+
+public class Luta {
+    // agregação, uma classe estar contida em outra classe
+    private Lutador desafiado;
+    private Lutador desafiante;
+    private boolean aprovada;
+
+    public void marcarLuta(Lutador l1, Lutador l2){
+        if (l1.getCategoria().equals(l2.getCategoria()) && l1 != l2){
+            this.aprovada =true;
+            this.desafiado = l1;
+            this.desafiante = l2;
+        } else {
+            this.aprovada = false;
+            this.desafiado = null;
+            this.desafiante = null;
+        }
+    }
+
+    public void lutar() {
+        if (this.aprovada) {
+            System.out.println("### DESAFIADO ###");
+            this.desafiado.apresentar();
+            System.out.println("### DESAFIANTE ###");
+            this.desafiante.apresentar();
+            double probabilidadeVitoriaDesafiado = 0.383;  // 38.3% de chance de vitória sem vantagem
+            double probabilidadeVitoriaDesafiante = 0.383; // 38.3% de chance de vitória sem vantagem
+            double probabilidadeEmpate = 0.234;           // 23.4% de chance de empate sem vantagem
+
+            if (this.desafiado.getVitorias() > this.desafiante.getVitorias() &&
+                    this.desafiado.getDerrotas() < this.desafiante.getDerrotas()) {
+                probabilidadeVitoriaDesafiado = 0.523;  // 52.3% de chance de vitória com vantagem
+                probabilidadeVitoriaDesafiante = 0.203; // 20.3% de chance de vitória com vantagem
+                probabilidadeEmpate = 0.274;           // 27.4% de chance de empate com vantagem
+            } else if (this.desafiante.getVitorias() > this.desafiado.getVitorias() &&
+                    this.desafiante.getDerrotas() < this.desafiado.getDerrotas()) {
+                probabilidadeVitoriaDesafiante = 0.523;  // 52.3% de chance de vitória com vantagem
+                probabilidadeVitoriaDesafiado = 0.203;   // 20.3% de chance de vitória com vantagem
+                probabilidadeEmpate = 0.274;             // 27.4% de chance de empate com vantagem
+            }
+
+            Random random = new Random();
+            double randomValue = random.nextDouble();
+
+            if (randomValue < probabilidadeVitoriaDesafiado) {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("Vitória de " + this.desafiado.getNome());
+                System.out.println("====================================================");
+                this.desafiado.ganharLuta();
+                this.desafiante.perderLuta();
+            } else if (randomValue < probabilidadeVitoriaDesafiado + probabilidadeVitoriaDesafiante) {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("Vitória de " + this.desafiante.getNome());
+                System.out.println("====================================================");
+                this.desafiante.ganharLuta();
+                this.desafiado.perderLuta();
+            } else {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("A luta terminou em empate!");
+                System.out.println("====================================================");
+                this.desafiado.empatarLuta();
+                this.desafiante.empatarLuta();
+            }
+        } else {
+            System.out.println("Esta luta não pode acontecer, categorias diferentes!");
+        }
+    }
+
+    public Lutador getDesafiado() {
+        return desafiado;
+    }
+
+    public void setDesafiado(Lutador desafiado) {
+        this.desafiado = desafiado;
+    }
+
+    public Lutador getDesafiante() {
+        return desafiante;
+    }
+
+    public void setDesafiante(Lutador desafiante) {
+        this.desafiante = desafiante;
+    }
+}ackage ufc;
+
+public class Lutador {
+    private String nome;
+    private String nacionalidade;
+    private int idade;
+    private double altura;
+    private double peso;
+    private String categoria;
+    private int vitorias;
+    private int derrotas;
+    private int empates;
+
+    public void apresentar(){
+        System.out.println("------------------------------------------------------------------");
+        System.out.println("Chegou a hora! Apresentamos o lutador " + this.getNome());
+        System.out.println("Diretamente de " + this.getNacionalidade());
+        System.out.println("com " + this.getIdade() + " anos e " + this.getAltura() + " metros");
+        System.out.println("pesando " + this.getPeso() + "Kg");
+        System.out.println(this.getVitorias() + " vitórias ");
+        System.out.println(this.getDerrotas() + " derrotas ");
+        System.out.println(this.getEmpates() + " empates! ");
+    }
+
+    //apresentação simples
+    public void status(){
+        System.out.println(this.getNome() + " é um " + this.getCategoria());
+        System.out.println("Ganhou " + this.getVitorias() + " vezes");
+        System.out.println("Perdeu " + this.getDerrotas() + " vezes");
+        System.out.println("Empatou " + this.getEmpates() + " vezes");
+    }
+
+    public void ganharLuta(){
+        this.setVitorias(getVitorias() + 1);
+    }
+
+    public void perderLuta(){
+        this.setDerrotas(getDerrotas() + 1);
+    }
+
+    public void empatarLuta(){
+        this.setEmpates(getEmpates() + 1);
+    }
+
+    public Lutador(String nome, String nacionalidade, int idade, double altura, double peso, int vitorias, int derrotas, int empates) {
+        this.nome = nome;
+        this.nacionalidade = nacionalidade;
+        this.idade = idade;
+        this.altura = altura;
+        this.setPeso(peso);
+        this.vitorias = vitorias;
+        this.derrotas = derrotas;
+        this.empates = empates;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getNacionalidade() {
+        return nacionalidade;
+    }
+
+    public void setNacionalidade(String nacionalidade) {
+        this.nacionalidade = nacionalidade;
+    }
+
+    public int getIdade() {
+        return idade;
+    }
+
+    public void setIdade(int idade) {
+        this.idade = idade;
+    }
+
+    public double getAltura() {
+        return altura;
+    }
+
+    public void setAltura(double altura) {
+        this.altura = altura;
+    }
+
+    public double getPeso() {
+        return peso;
+    }
+
+    public void setPeso(double peso) {
+        this.peso = peso;
+        this.setCategoria();
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    //categoria de acordo com o peso
+    private void setCategoria() {
+        if (this.peso < 52.6){
+            this.categoria = "Peso-Palha";
+        } else if (this.peso < 56.7) {
+            this.categoria = "Peso-Mosca";
+        } else if (this.peso < 61.2) {
+            this.categoria = "Peso-Galo";
+        } else if (this.peso < 65.7) {
+            this.categoria = "Peso-Pena";
+        } else if (this.peso < 70.3) {
+            this.categoria = "Peso-Leve";
+        } else if (this.peso < 77.1) {
+            this.categoria = "Peso Meio-Médio";
+        } else if (this.peso < 83.9){
+            this.categoria = "Peso-Médio";
+        } else if (this.peso < 92.9) {
+            this.categoria = "Peso Meio-Pesado";
+        } else if (this.peso < 120.2) {
+            this.categoria = "Peso Pesado";
+        } else {
+            System.out.println("Não se enquadra nas categorias, não pode lutar!");
+
+        }
+    }
+
+    public int getVitorias() {
+        return vitorias;
+    }
+
+    public void setVitorias(int vitorias) {
+        this.vitorias = vitorias;
+    }
+
+    public int getDerrotas() {
+        return derrotas;
+    }
+
+    public void setDerrotas(int derrotas) {
+        this.derrotas = derrotas;
+    }
+
+    public int getEmpates() {
+        return empates;
+    }
+
+    public void setEmpates(int empates) {
+        this.empates = empates;
+    }
+}15, 16, 18, 19, 19, 16, 20, 17, 15, 20, 20, 16, 19, 20, 17, 16, 17, 19, 20, 19, 15gh repo clone joaovitorcidralv/Ultimate-FightingLutador.javaackage ufc;
+
+public class Lutador {
+    private String nome;
+    private String nacionalidade;
+    private int idade;
+    private double altura;
+    private double peso;
+    private String categoria;
+    private int vitorias;
+    private int derrotas;
+    private int empates;
+
+    public void apresentar(){
+        System.out.println("------------------------------------------------------------------");
+        System.out.println("Chegou a hora! Apresentamos o lutador " + this.getNome());
+        System.out.println("Diretamente de " + this.getNacionalidade());
+        System.out.println("com " + this.getIdade() + " anos e " + this.getAltura() + " metros");
+        System.out.println("pesando " + this.getPeso() + "Kg");
+        System.out.println(this.getVitorias() + " vitórias ");
+        System.out.println(this.getDerrotas() + " derrotas ");
+        System.out.println(this.getEmpates() + " empates! ");
+    }
+
+    //apresentação simples
+    public void status(){
+        System.out.println(this.getNome() + " é um " + this.getCategoria());
+        System.out.println("Ganhou " + this.getVitorias() + " vezes");
+        System.out.println("Perdeu " + this.getDerrotas() + " vezes");
+        System.out.println("Empatou " + this.getEmpates() + " vezes");
+    }
+
+    public void ganharLuta(){
+        this.setVitorias(getVitorias() + 1);
+    }
+
+    public void perderLuta(){
+        this.setDerrotas(getDerrotas() + 1);
+    }
+
+    public void empatarLuta(){
+        this.setEmpates(getEmpates() + 1);
+    }
+
+    public Lutador(String nome, String nacionalidade, int idade, double altura, double peso, int vitorias, int derrotas, int empates) {
+        this.nome = nome;
+        this.nacionalidade = nacionalidade;
+        this.idade = idade;
+        this.altura = altura;
+        this.setPeso(peso);
+        this.vitorias = vitorias;
+        this.derrotas = derrotas;
+        this.empates = empates;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getNacionalidade() {
+        return nacionalidade;
+    }
+
+    public void setNacionalidade(String nacionalidade) {
+        this.nacionalidade = nacionalidade;
+    }
+
+    public int getIdade() {
+        return idade;
+    }
+
+    public void setIdade(int idade) {
+        this.idade = idade;
+    }
+
+    public double getAltura() {
+        return altura;
+    }
+
+    public void setAltura(double altura) {
+        this.altura = altura;
+    }
+
+    public double getPeso() {
+        return peso;
+    }
+
+    public void setPeso(double peso) {
+        this.peso = peso;
+        this.setCategoria();
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    //categoria de acordo com o peso
+    private void setCategoria() {
+        if (this.peso < 52.6){
+            this.categoria = "Peso-Palha";
+        } else if (this.peso < 56.7) {
+            this.categoria = "Peso-Mosca";
+        } else if (this.peso < 61.2) {
+            this.categoria = "Peso-Galo";
+        } else if (this.peso < 65.7) {
+            this.categoria = "Peso-Pena";
+        } else if (this.peso < 70.3) {
+            this.categoria = "Peso-Leve";
+        } else if (this.peso < 77.1) {
+            this.categoria = "Peso Meio-Médio";
+        } else if (this.peso < 83.9){
+            this.categoria = "Peso-Médio";
+        } else if (this.peso < 92.9) {
+            this.categoria = "Peso Meio-Pesado";
+        } else if (this.peso < 120.2) {
+            this.categoria = "Peso Pesado";
+        } else {
+            System.out.println("Não se enquadra nas categorias, não pode lutar!");
+
+        }
+    }
+
+    public int getVitorias() {
+        return vitorias;
+    }
+
+    public void setVitorias(int vitorias) {
+        this.vitorias = vitorias;
+    }
+
+    public int getDerrotas() {
+        return derrotas;
+    }
+
+    public void setDerrotas(int derrotas) {
+        this.derrotas = derrotas;
+    }
+
+    public int getEmpates() {
+        return empates;
+    }
+
+    public void setEmpates(int empates) {
+        this.empates = empates;
+    }
+}package ufc;
+
+import java.util.Random;
+
+public class Luta {
+    // agregação, uma classe estar contida em outra classe
+    private Lutador desafiado;
+    private Lutador desafiante;
+    private boolean aprovada;
+
+    public void marcarLuta(Lutador l1, Lutador l2){
+        if (l1.getCategoria().equals(l2.getCategoria()) && l1 != l2){
+            this.aprovada =true;
+            this.desafiado = l1;
+            this.desafiante = l2;
+        } else {
+            this.aprovada = false;
+            this.desafiado = null;
+            this.desafiante = null;
+        }
+    }
+
+    public void lutar() {
+        if (this.aprovada) {
+            System.out.println("### DESAFIADO ###");
+            this.desafiado.apresentar();
+            System.out.println("### DESAFIANTE ###");
+            this.desafiante.apresentar();
+            double probabilidadeVitoriaDesafiado = 0.383;  // 38.3% de chance de vitória sem vantagem
+            double probabilidadeVitoriaDesafiante = 0.383; // 38.3% de chance de vitória sem vantagem
+            double probabilidadeEmpate = 0.234;           // 23.4% de chance de empate sem vantagem
+
+            if (this.desafiado.getVitorias() > this.desafiante.getVitorias() &&
+                    this.desafiado.getDerrotas() < this.desafiante.getDerrotas()) {
+                probabilidadeVitoriaDesafiado = 0.523;  // 52.3% de chance de vitória com vantagem
+                probabilidadeVitoriaDesafiante = 0.203; // 20.3% de chance de vitória com vantagem
+                probabilidadeEmpate = 0.274;           // 27.4% de chance de empate com vantagem
+            } else if (this.desafiante.getVitorias() > this.desafiado.getVitorias() &&
+                    this.desafiante.getDerrotas() < this.desafiado.getDerrotas()) {
+                probabilidadeVitoriaDesafiante = 0.523;  // 52.3% de chance de vitória com vantagem
+                probabilidadeVitoriaDesafiado = 0.203;   // 20.3% de chance de vitória com vantagem
+                probabilidadeEmpate = 0.274;             // 27.4% de chance de empate com vantagem
+            }
+
+            Random random = new Random();
+            double randomValue = random.nextDouble();
+
+            if (randomValue < probabilidadeVitoriaDesafiado) {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("Vitória de " + this.desafiado.getNome());
+                System.out.println("====================================================");
+                this.desafiado.ganharLuta();
+                this.desafiante.perderLuta();
+            } else if (randomValue < probabilidadeVitoriaDesafiado + probabilidadeVitoriaDesafiante) {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("Vitória de " + this.desafiante.getNome());
+                System.out.println("====================================================");
+                this.desafiante.ganharLuta();
+                this.desafiado.perderLuta();
+            } else {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("A luta terminou em empate!");
+                System.out.println("====================================================");
+                this.desafiado.empatarLuta();
+                this.desafiante.empatarLuta();
+            }
+        } else {
+            System.out.println("Esta luta não pode acontecer, categorias diferentes!");
+        }
+    }
+
+    public Lutador getDesafiado() {
+        return desafiado;
+    }
+
+    public void setDesafiado(Lutador desafiado) {
+        this.desafiado = desafiado;
+    }
+
+    public Lutador getDesafiante() {
+        return desafiante;
+    }
+
+    public void setDesafiante(Lutador desafiante) {
+        this.desafiante = desafiante;
+    }
+}https://scratch.mit.edu/projects/106965018515, 16, 18, 19, 19, 16, 20, 17, 15, 20, 20, 16, 19, 20, 17, 16, 17, 19, 20, 19, 15https://scratch.mit.edu/projects/1075800614gh repo clone joaovitorcidralv/Ultimate-Fightingpackage ufc;
+
+import java.util.Random;
+
+public class Luta {
+    // agregação, uma classe estar contida em outra classe
+    private Lutador desafiado;
+    private Lutador desafiante;
+    private boolean aprovada;
+
+    public void marcarLuta(Lutador l1, Lutador l2){
+        if (l1.getCategoria().equals(l2.getCategoria()) && l1 != l2){
+            this.aprovada =true;
+            this.desafiado = l1;
+            this.desafiante = l2;
+        } else {
+            this.aprovada = false;
+            this.desafiado = null;
+            this.desafiante = null;
+        }
+    }
+
+    public void lutar() {
+        if (this.aprovada) {
+            System.out.println("### DESAFIADO ###");
+            this.desafiado.apresentar();
+            System.out.println("### DESAFIANTE ###");
+            this.desafiante.apresentar();
+            double probabilidadeVitoriaDesafiado = 0.383;  // 38.3% de chance de vitória sem vantagem
+            double probabilidadeVitoriaDesafiante = 0.383; // 38.3% de chance de vitória sem vantagem
+            double probabilidadeEmpate = 0.234;           // 23.4% de chance de empate sem vantagem
+
+            if (this.desafiado.getVitorias() > this.desafiante.getVitorias() &&
+                    this.desafiado.getDerrotas() < this.desafiante.getDerrotas()) {
+                probabilidadeVitoriaDesafiado = 0.523;  // 52.3% de chance de vitória com vantagem
+                probabilidadeVitoriaDesafiante = 0.203; // 20.3% de chance de vitória com vantagem
+                probabilidadeEmpate = 0.274;           // 27.4% de chance de empate com vantagem
+            } else if (this.desafiante.getVitorias() > this.desafiado.getVitorias() &&
+                    this.desafiante.getDerrotas() < this.desafiado.getDerrotas()) {
+                probabilidadeVitoriaDesafiante = 0.523;  // 52.3% de chance de vitória com vantagem
+                probabilidadeVitoriaDesafiado = 0.203;   // 20.3% de chance de vitória com vantagem
+                probabilidadeEmpate = 0.274;             // 27.4% de chance de empate com vantagem
+            }
+
+            Random random = new Random();
+            double randomValue = random.nextDouble();
+
+            if (randomValue < probabilidadeVitoriaDesafiado) {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("Vitória de " + this.desafiado.getNome());
+                System.out.println("====================================================");
+                this.desafiado.ganharLuta();
+                this.desafiante.perderLuta();
+            } else if (randomValue < probabilidadeVitoriaDesafiado + probabilidadeVitoriaDesafiante) {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("Vitória de " + this.desafiante.getNome());
+                System.out.println("====================================================");
+                this.desafiante.ganharLuta();
+                this.desafiado.perderLuta();
+            } else {
+                System.out.println("==================RESULTADO DE LUTA=================");
+                System.out.println("A luta terminou em empate!");
+                System.out.println("====================================================");
+                this.desafiado.empatarLuta();
+                this.desafiante.empatarLuta();
+            }
+        } else {
+            System.out.println("Esta luta não pode acontecer, categorias diferentes!");
+        }
+    }
+
+    public Lutador getDesafiado() {
+        return desafiado;
+    }
+
+    public void setDesafiado(Lutador desafiado) {
+        this.desafiado = desafiado;
+    }
+
+    public Lutador getDesafiante() {
+        return desafiante;
+    }
+
+    public void setDesafiante(Lutador desafiante) {
+        this.desafiante = desafiante;
+    }
+}ackage ufc;
+
+public class Lutador {
+    private String nome;
+    private String nacionalidade;
+    private int idade;
+    private double altura;
+    private double peso;
+    private String categoria;
+    private int vitorias;
+    private int derrotas;
+    private int empates;
+
+    public void apresentar(){
+        System.out.println("------------------------------------------------------------------");
+        System.out.println("Chegou a hora! Apresentamos o lutador " + this.getNome());
+        System.out.println("Diretamente de " + this.getNacionalidade());
+        System.out.println("com " + this.getIdade() + " anos e " + this.getAltura() + " metros");
+        System.out.println("pesando " + this.getPeso() + "Kg");
+        System.out.println(this.getVitorias() + " vitórias ");
+        System.out.println(this.getDerrotas() + " derrotas ");
+        System.out.println(this.getEmpates() + " empates! ");
+    }
+
+    //apresentação simples
+    public void status(){
+        System.out.println(this.getNome() + " é um " + this.getCategoria());
+        System.out.println("Ganhou " + this.getVitorias() + " vezes");
+        System.out.println("Perdeu " + this.getDerrotas() + " vezes");
+        System.out.println("Empatou " + this.getEmpates() + " vezes");
+    }
+
+    public void ganharLuta(){
+        this.setVitorias(getVitorias() + 1);
+    }
+
+    public void perderLuta(){
+        this.setDerrotas(getDerrotas() + 1);
+    }
+
+    public void empatarLuta(){
+        this.setEmpates(getEmpates() + 1);
+    }
+
+    public Lutador(String nome, String nacionalidade, int idade, double altura, double peso, int vitorias, int derrotas, int empates) {
+        this.nome = nome;
+        this.nacionalidade = nacionalidade;
+        this.idade = idade;
+        this.altura = altura;
+        this.setPeso(peso);
+        this.vitorias = vitorias;
+        this.derrotas = derrotas;
+        this.empates = empates;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getNacionalidade() {
+        return nacionalidade;
+    }
+
+    public void setNacionalidade(String nacionalidade) {
+        this.nacionalidade = nacionalidade;
+    }
+
+    public int getIdade() {
+        return idade;
+    }
+
+    public void setIdade(int idade) {
+        this.idade = idade;
+    }
+
+    public double getAltura() {
+        return altura;
+    }
+
+    public void setAltura(double altura) {
+        this.altura = altura;
+    }
+
+    public double getPeso() {
+        return peso;
+    }
+
+    public void setPeso(double peso) {
+        this.peso = peso;
+        this.setCategoria();
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    //categoria de acordo com o peso
+    private void setCategoria() {
+        if (this.peso < 52.6){
+            this.categoria = "Peso-Palha";
+        } else if (this.peso < 56.7) {
+            this.categoria = "Peso-Mosca";
+        } else if (this.peso < 61.2) {
+            this.categoria = "Peso-Galo";
+        } else if (this.peso < 65.7) {
+            this.categoria = "Peso-Pena";
+        } else if (this.peso < 70.3) {
+            this.categoria = "Peso-Leve";
+        } else if (this.peso < 77.1) {
+            this.categoria = "Peso Meio-Médio";
+        } else if (this.peso < 83.9){
+            this.categoria = "Peso-Médio";
+        } else if (this.peso < 92.9) {
+            this.categoria = "Peso Meio-Pesado";
+        } else if (this.peso < 120.2) {
+            this.categoria = "Peso Pesado";
+        } else {
+            System.out.println("Não se enquadra nas categorias, não pode lutar!");
+
+        }
+    }
+
+    public int getVitorias() {
+        return vitorias;
+    }
+
+    public void setVitorias(int vitorias) {
+        this.vitorias = vitorias;
+    }
+
+    public int getDerrotas() {
+        return derrotas;
+    }
+
+    public void setDerrotas(int derrotas) {
+        this.derrotas = derrotas;
+    }
+
+    public int getEmpates() {
+        return empates;
+    }
+
+    public void setEmpates(int empates) {
+        this.empates = empates;
+    }
+}https://scratch.mit.edu/projects/1075800614
+/head>
 
 <body>  
